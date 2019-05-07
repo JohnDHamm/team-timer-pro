@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Image, StyleSheet, StatusBar } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 import Routes from './routes';
@@ -23,26 +23,27 @@ const appHeaderOptions = {
     fontSize: 16,
   },
   headerTintColor: sharedStyles.COLOR_LIGHT_BLUE,
-}
-
-
-const TeamStack = createStackNavigator( Routes.TeamRoutes,
-  { initialRouteName: 'TeamList',
-    defaultNavigationOptions: appHeaderOptions,
-  }
-)
+};
 
 const WorkoutStack = createStackNavigator( Routes.WorkoutRoutes,
   { initialRouteName: 'LapCount',
     defaultNavigationOptions: appHeaderOptions,
-  }
-)
+  });
 
 const ResultsStack = createStackNavigator( Routes.ResultsRoutes,
   { initialRouteName: 'ResultsList',
     defaultNavigationOptions: appHeaderOptions,
-  }
-)
+  });
+
+const TeamStack = createStackNavigator( Routes.TeamRoutes,
+  { initialRouteName: 'TeamList',
+    defaultNavigationOptions: appHeaderOptions,
+  });
+
+const SettingsStack = createStackNavigator( Routes.SettingsRoutes,
+  { initialRouteName: 'Menu',
+    defaultNavigationOptions: appHeaderOptions,
+  });
 
 const TabNavConfig = {
   animationEnabled: true,
@@ -55,7 +56,7 @@ const TabNavConfig = {
       backgroundColor: sharedStyles.COLOR_DARK_BLUE,
     },
   }
-}
+};
 
 const TabNav = createBottomTabNavigator({
   Workout: { screen: WorkoutStack,
@@ -90,25 +91,34 @@ const TabNav = createBottomTabNavigator({
         />
       )
     }
-  }
+  },
+  Settings: { screen: SettingsStack,
+    navigationOptions: {
+      tabBarLabel: 'Settings',
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={IMAGES.SETTINGS_TAB_ICON}
+          style={[styles.settingsTabIcon, {tintColor: tintColor}]}
+        />
+      )
+    }
+  },
 }, TabNavConfig );
-
 
 const MainStackConfig = {
   headerMode: 'none',
   mode: 'modal'
-}
+};
 
 const MainStack = createStackNavigator({
 	Splash: { screen: Splash },
 	MainApp: { screen: TabNav },
   Timer: { screen: Timer }
  }, MainStackConfig
-)
+);
 
 const AppContainer = createAppContainer(MainStack);
 export default AppContainer;
-
 
 const styles = StyleSheet.create({
   workoutTabIcon: {
@@ -121,6 +131,10 @@ const styles = StyleSheet.create({
   },
   teamTabIcon: {
     width: 32,
+    height: 24,
+  },
+  settingsTabIcon: {
+    width: 24,
     height: 24,
   }
 });
