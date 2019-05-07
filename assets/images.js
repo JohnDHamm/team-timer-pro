@@ -15,7 +15,7 @@ const IMAGES = {
   STOPWATCH_SM: require('./images/stopwatch_sm.png'),
   STOPWATCH_MED: require('./images/stopwatch_med.png'),
   UP_ARROW: require('./images/up_arrow.png'),
-  TT_LOGO_TITLE_LG: require('./images/TT_logoWithTitle_lg.png'),
+  TT_PRO_LOGO_TITLE_LG: require('./images/TT-pro_logoWithTitle_lg.png'),
 
 
   // ASPECT RATIOS - width:height
@@ -24,7 +24,7 @@ const IMAGES = {
   NEXT_ARROW_ASPECT: 1.579,
   STOPWATCH_ASPECT: 0.802,
   UP_ARROW_ASPECT: 2.256,
-  TT_LOGO_TITLE_ASPECT: 1.075
+  TT_PRO_LOGO_TITLE_ASPECT: 0.881,
 
 }
 

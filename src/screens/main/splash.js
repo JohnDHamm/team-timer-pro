@@ -21,7 +21,7 @@ export default class Splash extends Component {
     return(
       <View style={styles.container}>
         <Image
-          source={IMAGES.TT_LOGO_TITLE_LG}
+          source={IMAGES.TT_PRO_LOGO_TITLE_LG}
           style={styles.logo}/>
       </View>
     )
@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
 	},
   logo: {
 	  width: logoWidth,
-    height: logoWidth / IMAGES.TT_LOGO_TITLE_ASPECT
+    height: logoWidth / IMAGES.TT_PRO_LOGO_TITLE_ASPECT
   }
 });
