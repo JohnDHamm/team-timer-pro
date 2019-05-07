@@ -1,4 +1,4 @@
-# ![alt text](https://github.com/JohnDHamm/team-timer-RN/raw/master/teamTimerBasic_logo.png "Team Timer Basic")
+# ![alt text](https://github.com/JohnDHamm/team-timer-pro/raw/master/teamTimerPro_logo.png "Team Timer Basic")
 
 ### *A multi-athlete lap timer* (Pro version)
 
