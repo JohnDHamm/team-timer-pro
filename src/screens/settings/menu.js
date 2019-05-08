@@ -1,36 +1,43 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import sharedStyles from '../../styles/shared_styles';
-import IMAGES from '@assets/images'
-
-// import NextButton from '../../components/next_button';
-// import {Haptic} from 'expo';
 
 export default class Menu extends Component {
 
   static navigationOptions = {
     title: 'Settings',
-    headerBackTitle: 'Menu',
+    headerBackTitle: 'Settings',
   };
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //   }
-  // };
-
 
   render(){
 
     return(
-      <View style={sharedStyles.LAYOUT_MAIN_STRETCH}>
-        <Text>Settings</Text>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.listButton}
+          onPress={() => this.props.navigation.navigate('PaceUnits')}
+        >
+          <Text style={styles.listText}>Pace units</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    paddingVertical: 10,
+  },
+  listButton: {
+    borderBottomColor: sharedStyles.COLOR_LIGHT_GRAY,
+    borderBottomWidth: 1,
+    paddingVertical:10,
+    paddingHorizontal: 20
+  },
+  listText: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    color: sharedStyles.COLOR_PURPLE,
+    fontSize: 30,
+  }
 });

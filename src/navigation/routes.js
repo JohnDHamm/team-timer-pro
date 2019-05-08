@@ -9,6 +9,7 @@ import ConfirmWorkout from '../screens/workout/confirm_workout';
 import ResultsList from '../screens/results/results_list';
 import WorkoutDetail from '../screens/results/workout_detail';
 import Menu from '../screens/settings/menu';
+import PaceUnits from '../screens/settings/pace_units';
 
 export default Routes = {
   WorkoutRoutes: {
@@ -29,5 +30,6 @@ export default Routes = {
   },
   SettingsRoutes: {
     Menu: { screen: Menu },
+    PaceUnits: { screen: PaceUnits}
   }
 }
