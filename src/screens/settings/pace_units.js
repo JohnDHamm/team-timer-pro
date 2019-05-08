@@ -30,7 +30,6 @@ export default class PaceUnits extends Component {
       .then(res => {
         // console.log("PaceUnitsStore", res);
         if (res !== null) {
-          console.log("PaceUnitsStore", res);
           this.initState(res);
         }
       })

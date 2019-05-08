@@ -1,4 +1,4 @@
-const MEASUREMENTS = {
+export const MEASUREMENTS = {
   METER: 'm',
   YARD: 'yd',
   MILE: 'mi',

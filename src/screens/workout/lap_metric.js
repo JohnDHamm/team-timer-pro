@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import sharedStyles from '../../styles/shared_styles';
-import NextButton from '../../components/next_button'
+import NextButton from '../../components/next_button';
+import { MEASUREMENTS } from "../../utility/constants";
 import {Haptic} from 'expo';
 
 export default class LapMetric extends Component {
@@ -10,7 +11,7 @@ export default class LapMetric extends Component {
   static navigationOptions = {
     title: 'Measurement unit?',
     headerBackTitle: 'Metric',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -26,9 +27,7 @@ export default class LapMetric extends Component {
   }
 
   render(){
-    const { lapCount, lapDistance } = this.props.navigation.state.params;
-    // console.log("lapCount", lapCount);
-    // console.log("lapDistance", lapDistance);
+    const { lapDistance } = this.props.navigation.state.params;
 
     return(
       <View style={sharedStyles.LAYOUT_MAIN_STRETCH}>
@@ -36,45 +35,45 @@ export default class LapMetric extends Component {
           <Text style={styles.distance}>{lapDistance}{this.state.lapMetric}</Text>
           <TouchableOpacity
             style={styles.selectMetric}
-            onPress={() => this.onSelection("m")}
+            onPress={() => this.onSelection(MEASUREMENTS.METER)}
             >
             <Text
               style={[
                 styles.metricText,
-                this.state.lapMetric === "m" ? styles.metricSelected : styles.metricUnselected
+                this.state.lapMetric === MEASUREMENTS.METER ? styles.metricSelected : styles.metricUnselected
                 ]}
             >meters</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.selectMetric}
-            onPress={() => this.onSelection("yd")}
+            onPress={() => this.onSelection(MEASUREMENTS.YARD)}
             >
             <Text
               style={[
                 styles.metricText,
-                this.state.lapMetric === "yd" ? styles.metricSelected : styles.metricUnselected
+                this.state.lapMetric === MEASUREMENTS.YARD ? styles.metricSelected : styles.metricUnselected
               ]}
             >yards</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.selectMetric}
-            onPress={() => this.onSelection("km")}
+            onPress={() => this.onSelection(MEASUREMENTS.KILOMETER)}
             >
             <Text
               style={[
                 styles.metricText,
-                this.state.lapMetric === "km" ? styles.metricSelected : styles.metricUnselected
+                this.state.lapMetric === MEASUREMENTS.KILOMETER ? styles.metricSelected : styles.metricUnselected
               ]}
             >kilometers</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.selectMetric}
-            onPress={() => this.onSelection("mi")}
+            onPress={() => this.onSelection(MEASUREMENTS.MILE)}
             >
             <Text
               style={[
                 styles.metricText,
-                this.state.lapMetric === "mi" ? styles.metricSelected : styles.metricUnselected
+                this.state.lapMetric === MEASUREMENTS.MILE ? styles.metricSelected : styles.metricUnselected
               ]}
             >miles</Text>
           </TouchableOpacity>
@@ -84,7 +83,7 @@ export default class LapMetric extends Component {
           <NextButton
             label={'select athletes'}
             disabled={this.state.disableNextButton}
-            onPress={() => this.props.navigation.navigate(`SelectAthletes`, { lapCount: lapCount, lapDistance: lapDistance, lapMetric: this.state.lapMetric })}/>
+            onPress={() => this.props.navigation.navigate(`SelectAthletes`, { ...this.props.navigation.state.params, lapMetric: this.state.lapMetric })}/>
         </View>
       </View>
     )

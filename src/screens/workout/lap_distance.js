@@ -31,8 +31,6 @@ export default class LapDistance extends Component {
   }
 
   render(){
-    const { lapCount } = this.props.navigation.state.params;
-    // console.log("lapCount", lapCount);
 
     return(
       <KeyboardAvoidingView style={sharedStyles.LAYOUT_MAIN_CENTER} behavior={'padding'}>
@@ -50,7 +48,7 @@ export default class LapDistance extends Component {
           <NextButton
             label={'units'}
             disabled={this.state.disableNextButton}
-            onPress={() => this.props.navigation.navigate(`LapMetric`, { lapCount: lapCount, lapDistance: this.state.lapDistance })}/>
+            onPress={() => this.props.navigation.navigate(`LapMetric`, { ...this.props.navigation.state.params, lapDistance: this.state.lapDistance })}/>
         </View>
       </KeyboardAvoidingView>
     )

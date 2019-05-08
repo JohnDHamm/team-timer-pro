@@ -26,7 +26,7 @@ const appHeaderOptions = {
 };
 
 const WorkoutStack = createStackNavigator( Routes.WorkoutRoutes,
-  { initialRouteName: 'LapCount',
+  { initialRouteName: 'SelectDiscipline',
     defaultNavigationOptions: appHeaderOptions,
   });
 
