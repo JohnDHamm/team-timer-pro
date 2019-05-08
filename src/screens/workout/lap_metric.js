@@ -26,9 +26,7 @@ export default class LapMetric extends Component {
   }
 
   render(){
-    const { lapCount, lapDistance } = this.props.navigation.state.params;
-    // console.log("lapCount", lapCount);
-    // console.log("lapDistance", lapDistance);
+    const { lapDistance } = this.props.navigation.state.params;
 
     return(
       <View style={sharedStyles.LAYOUT_MAIN_STRETCH}>
@@ -84,7 +82,7 @@ export default class LapMetric extends Component {
           <NextButton
             label={'select athletes'}
             disabled={this.state.disableNextButton}
-            onPress={() => this.props.navigation.navigate(`SelectAthletes`, { lapCount: lapCount, lapDistance: lapDistance, lapMetric: this.state.lapMetric })}/>
+            onPress={() => this.props.navigation.navigate(`SelectAthletes`, { ...this.props.navigation.state.params, lapMetric: this.state.lapMetric })}/>
         </View>
       </View>
     )

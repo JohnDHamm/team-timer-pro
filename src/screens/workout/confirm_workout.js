@@ -36,14 +36,7 @@ export default class ConfirmWorkout extends Component {
   }
 
   startWorkout() {
-    const { lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
-    // this.setState({startButtonLabel: "do workout again"});
-    this.props.navigation.navigate(`Timer`, {
-      lapCount,
-      lapDistance,
-      lapMetric,
-      selectedAthletes
-    })
+    this.props.navigation.navigate(`Timer`, this.props.navigation.state.params)
   }
 
   resetWorkout() {
@@ -56,7 +49,7 @@ export default class ConfirmWorkout extends Component {
 
 
   render(){
-    const { lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
+    const { discipline, lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
 
     return(
       <View style={sharedStyles.LAYOUT_MAIN_CENTER}>

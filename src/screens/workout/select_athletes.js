@@ -84,7 +84,6 @@ export default class SelectAthletes extends Component {
 
 
   render(){
-    const { lapCount, lapDistance, lapMetric } = this.props.navigation.state.params;
 
     return(
       <View style={sharedStyles.LAYOUT_MAIN_STRETCH}>
@@ -103,9 +102,7 @@ export default class SelectAthletes extends Component {
                   label={'confirm workout'}
                   disabled={this.state.disableNextButton}
                   onPress={() => this.props.navigation.navigate(`ConfirmWorkout`, {
-                    lapCount,
-                    lapDistance,
-                    lapMetric,
+                    ...this.props.navigation.state.params,
                     selectedAthletes: this.state.selectedAthletes
                   })}/>
               </View>

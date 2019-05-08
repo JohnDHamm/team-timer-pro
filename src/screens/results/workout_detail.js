@@ -30,7 +30,7 @@ export default class WorkoutDetail extends Component {
 
   componentDidMount() {
     const { selectedWorkout, workoutStore } = this.props.navigation.state.params;
-    // console.log("selected workout: ", selectedWorkout);
+    console.log("selected workout: ", selectedWorkout);
     this.setState({ selectedWorkout, workoutStore });
   }
 

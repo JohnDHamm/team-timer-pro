@@ -41,9 +41,10 @@ export default class Timer extends Component {
   }
 
   componentDidMount() {
-    const { lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
+    // console.log("workout params:", this.props.navigation.state.params);
+    const { discipline, lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
     const sortedAthletes = selectedAthletes.sort();
-    this.setState({workoutData: {lapCount, lapDistance, lapMetric}},
+    this.setState({workoutData: { discipline, lapCount, lapDistance, lapMetric }},
       () => this.setupTimer(sortedAthletes));
   }
 
@@ -62,7 +63,7 @@ export default class Timer extends Component {
 
   createAthletesArray(sortedAthletes) {
     let athletesArray = [];
-    for (i = 0; i < sortedAthletes.length; i++) {
+    for (let i = 0; i < sortedAthletes.length; i++) {
       let athleteObj = {
         index: i,
         name: sortedAthletes[i],
@@ -84,17 +85,17 @@ export default class Timer extends Component {
 
   initButtons() {
     // set currentAthleteOrder
-    let currentAthleteOrder = []
+    let currentAthleteOrder = [];
     for (let i = 0; i < this.state.totalAthletes; i++) {
       currentAthleteOrder.push(this.state.athletesArray[i].index)
     }
     this.setState({currentAthleteOrder}, () => {
       // create steps + initial btnTopPositions
-      let steps = []
-      let btnTopPositions = []
+      let steps = [];
+      let btnTopPositions = [];
       for (let i = 0; i < this.state.totalAthletes; i++) {
-        const value = i * buttonSpacing
-        steps.push(value)
+        const value = i * buttonSpacing;
+        steps.push(value);
         btnTopPositions.push(new Animated.Value(value))
       }
       this.setState({steps, btnTopPositions})
@@ -125,7 +126,7 @@ export default class Timer extends Component {
         }
       )
     } else {
-      console.log("no laps recorded - reset timer")
+      console.log("no laps recorded - reset timer");
       this.resetTimer();
     }
   }
@@ -151,7 +152,7 @@ export default class Timer extends Component {
     const mainReadout = Utils.createDisplayTime(time);
     this.setState({mainReadout});
 
-    for (i = 0; i < this.state.athletesArray.length; i++) {
+    for (let i = 0; i < this.state.athletesArray.length; i++) {
       if (!this.state.athletesArray[i].workoutDone) {
         const newLapTime = time - this.state.athletesArray[i].elapsed;
         this.setState(prevState => ({
@@ -168,7 +169,7 @@ export default class Timer extends Component {
       if (!this.state.athletesArray[athleteIndex].workoutDone) {
         Haptic.impact(Haptic.ImpactFeedbackStyle.Heavy);
         const thisLap = Date.now() - this.state.startTime;
-        let newLapArray = this.state.athletesArray[athleteIndex].lapTimesArray
+        let newLapArray = this.state.athletesArray[athleteIndex].lapTimesArray;
         newLapArray.push(thisLap);
         this.setState(prevState => ({
           athletesArray: prevState.athletesArray.map(
@@ -199,15 +200,15 @@ export default class Timer extends Component {
             )
           }), () => {
             // remove athlete from currentAthleteOrder + adjust totalAthletes and container height
-            let currentAthleteOrder = Object.assign([], this.state.currentAthleteOrder)
-            const newCurrentAthleteOrder = currentAthleteOrder.filter(index => index !== athleteIndex)
+            let currentAthleteOrder = Object.assign([], this.state.currentAthleteOrder);
+            const newCurrentAthleteOrder = currentAthleteOrder.filter(index => index !== athleteIndex);
             this.setState(prevState => ({
               totalAthletes: prevState.totalAthletes - 1,
               currentAthleteOrder: newCurrentAthleteOrder
             }))
           })
           )
-        };
+        }
         this.animateButtons(athleteIndex);
       }
     }
@@ -223,13 +224,13 @@ export default class Timer extends Component {
       }
     ).start();
     // move up 1 step all buttons below the pressed
-    const currentOrderIndex = this.state.currentAthleteOrder.indexOf(index)
-    const btnsToMoveUp = this.makeNextButtonsArray(currentOrderIndex)
-    this.moveUp(btnsToMoveUp)
+    const currentOrderIndex = this.state.currentAthleteOrder.indexOf(index);
+    const btnsToMoveUp = this.makeNextButtonsArray(currentOrderIndex);
+    this.moveUp(btnsToMoveUp);
     // update currentAthleteOrder
-    let newCurrentAthleteOrder = Object.assign([], this.state.currentAthleteOrder)
-    newCurrentAthleteOrder.splice(currentOrderIndex, 1)
-    newCurrentAthleteOrder.push(index)
+    let newCurrentAthleteOrder = Object.assign([], this.state.currentAthleteOrder);
+    newCurrentAthleteOrder.splice(currentOrderIndex, 1);
+    newCurrentAthleteOrder.push(index);
     this.setState({currentAthleteOrder: newCurrentAthleteOrder})
   }
 
@@ -239,7 +240,7 @@ export default class Timer extends Component {
 
   moveUp(btnsArray) {
     btnsArray.forEach((index) => {
-      const currentOrderIndex = this.state.currentAthleteOrder.indexOf(index)
+      const currentOrderIndex = this.state.currentAthleteOrder.indexOf(index);
       Animated.timing(
         this.state.btnTopPositions[index],
         {
@@ -269,19 +270,22 @@ export default class Timer extends Component {
       let newAthObj = {
         athlete: athlete.name,
         laps: this.convertLapTimes(athlete.lapTimesArray)
-      }
+      };
       workoutArray.push(newAthObj);
-    })
+    });
     let newSaveObj = {
       [this.state.startTime]: {
         id: this.state.startTime,
         description: this.state.description,
+        discipline: this.state.workoutData.discipline,
+        lap_distance: this.state.workoutData.lapDistance,
+        lap_metric: this.state.workoutData.lapMetric,
         workout: workoutArray
       }
-    }
+    };
     StoreUtils.mergeStore('WorkoutStore', newSaveObj)
       .then(() => {
-        this.props.navigation.navigate('ResultsList', { workoutData: this.state.workoutData }) // TODO: are the params needed?
+        this.props.navigation.navigate('ResultsList')
       })
   }
 
