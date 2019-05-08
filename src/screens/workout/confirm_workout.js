@@ -16,16 +16,6 @@ export default class ConfirmWorkout extends Component {
     headerBackTitle: 'Confirm',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      startButtonLabel: "START WORKOUT"
-    }
-  };
-
-  componentDidMount() {
-  }
-
   renderAthletes(athletes) {
     const sortedAthletes = athletes.sort();
     return _.map(sortedAthletes, athlete => {
@@ -42,7 +32,7 @@ export default class ConfirmWorkout extends Component {
   resetWorkout() {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'LapCount' })],
+      actions: [NavigationActions.navigate({ routeName: 'SelectDiscipline' })],
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -50,10 +40,33 @@ export default class ConfirmWorkout extends Component {
 
   render(){
     const { discipline, lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
+    let discImgSrc = '';
+    const iconWidth = 70;
+    let iconHeight;
+    switch (discipline) {
+      case 'swim':
+        discImgSrc = IMAGES.SWIM_ICON_LG;
+        iconHeight = iconWidth / IMAGES.SWIM_ICON_ASPECT;
+        break;
+      case 'bike':
+        discImgSrc = IMAGES.BIKE_ICON_LG;
+        iconHeight = iconWidth / IMAGES.BIKE_ICON_ASPECT;
+        break;
+      case 'run':
+        discImgSrc = IMAGES.RUN_ICON_LG;
+        iconHeight = iconWidth / IMAGES.RUN_ICON_ASPECT;
+        break;
+    }
 
     return(
       <View style={sharedStyles.LAYOUT_MAIN_CENTER}>
         <View style={styles.detailsContainer}>
+          {discImgSrc &&
+            <Image
+              style={[styles.discIcon, { width: iconWidth, height: iconHeight }]}
+              source={discImgSrc}
+            />
+          }
           <View style={[styles.detailsRow, {marginBottom: 15}]}>
             <Text style={styles.detailsLight}>Laps: </Text>
             <Text style={styles.detailsBold}>{lapCount}</Text>
@@ -102,6 +115,10 @@ export default class ConfirmWorkout extends Component {
 const styles = StyleSheet.create({
   detailsContainer: {
     flex: .7,
+    alignItems: 'center'
+  },
+  discIcon: {
+    tintColor: sharedStyles.COLOR_PURPLE
   },
   contentContainer: {
     alignItems: 'center',
