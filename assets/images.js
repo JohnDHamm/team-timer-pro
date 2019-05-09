@@ -20,6 +20,8 @@ const IMAGES = {
   SWIM_ICON_LG: require('./images/swim_icon_lg.png'),
   BIKE_ICON_LG: require('./images/bike_icon_lg.png'),
   RUN_ICON_LG: require('./images/run_icon_lg.png'),
+  EMPTY_PACE_SETTINGS_MED: require('./images/empty_pace_settings_med.png'),
+  MODAL_CLOSE_ICON_SM: require('./images/modal_close_icon_sm.png'),
 
 
   // ASPECT RATIOS - width:height
@@ -32,6 +34,8 @@ const IMAGES = {
   SWIM_ICON_ASPECT: 1.485,
   BIKE_ICON_ASPECT: 1.31,
   RUN_ICON_ASPECT: 1.240,
+  EMPTY_PACE_SETTINGS_ASPECT: 0.804,
+  MODAL_CLOSE_ICON_SM_ASPECT: 1.0,
 }
 
 export default IMAGES;

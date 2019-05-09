@@ -10,7 +10,8 @@ export default class AthleteEntry extends Component {
 
   static navigationOptions = {
     title: 'Add an athlete',
-  }
+    headerBackTitle: 'Cancel',
+  };
 
   constructor(props) {
     super(props);
@@ -44,7 +45,10 @@ export default class AthleteEntry extends Component {
   saveAthlete() {
     let updatedTeam = this.state.teamStore;
     const newAthlete = {
-      name: this.state.newName
+      name: this.state.newName,
+      swim_pace: 0,
+      bike_pace: 0,
+      run_pace: 0
     };
     updatedTeam[this.state.newName] = newAthlete;
     // console.log("updatedTeam", updatedTeam);
@@ -86,12 +90,22 @@ export default class AthleteEntry extends Component {
             <Text style={styles.errMsg}>{this.state.errMsg}</Text>
           }
           {this.state.showSaveBtn &&
-            <TouchableOpacity
-              onPress={() => this.saveAthlete()}>
-              <SecondaryButton
-                label={'save athlete'}
-                color={sharedStyles.COLOR_PURPLE}/>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                onPress={() => this.saveAthlete()}>
+                <SecondaryButton
+                  label={'save athlete'}
+                  color={sharedStyles.COLOR_PURPLE}/>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.paceButton}
+                onPress={() => this.props.navigation.navigate('AthletePaceEntry', { ...this.props.navigation.state.params, name: this.state.newName })}>
+                <SecondaryButton
+                  label={'add pace info'}
+                  color={sharedStyles.COLOR_PURPLE}/>
+              </TouchableOpacity>
+              <Text style={styles.optionalText}>[optional]</Text>
+            </View>
           }
         </View>
       </KeyboardAvoidingView>
@@ -101,7 +115,7 @@ export default class AthleteEntry extends Component {
 
 const styles = StyleSheet.create({
 	topContainer: {
-		flex: 0.5,
+		flex: 0.4,
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 	},
@@ -119,8 +133,18 @@ const styles = StyleSheet.create({
     fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
   },
   bottomContainer: {
-	  flex: 0.5,
+	  flex: 0.6,
     paddingTop: 20,
+  },
+  paceButton: {
+	  marginTop: 30
+  },
+  optionalText: {
+	  textAlign: 'center',
+	  fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 17,
+    color: sharedStyles.COLOR_GREEN,
+    paddingTop: 5
   },
   errMsg: {
 	  fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,

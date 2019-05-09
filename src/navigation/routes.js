@@ -1,5 +1,6 @@
 import TeamList from '../screens/team/team_list';
 import AthleteEntry from '../screens/team/athlete_entry';
+import AthletePaceEntry from '../screens/team/athlete_pace_entry';
 import EditAthlete from '../screens/team/edit_athlete';
 import SelectDiscipline from '../screens/workout/select_discipline';
 import LapCount from '../screens/workout/lap_count';
@@ -12,7 +13,7 @@ import WorkoutDetail from '../screens/results/workout_detail';
 import Menu from '../screens/settings/menu';
 import PaceUnits from '../screens/settings/pace_units';
 
-export default Routes = {
+const Routes = {
   WorkoutRoutes: {
     SelectDiscipline: { screen: SelectDiscipline},
     LapCount: { screen: LapCount },
@@ -28,10 +29,13 @@ export default Routes = {
   TeamRoutes: {
     TeamList: { screen: TeamList },
     AthleteEntry: { screen: AthleteEntry },
+    AthletePaceEntry: { screen: AthletePaceEntry },
     EditAthlete: { screen: EditAthlete },
   },
   SettingsRoutes: {
     Menu: { screen: Menu },
     PaceUnits: { screen: PaceUnits}
   }
-}
+};
+
+export default Routes;
