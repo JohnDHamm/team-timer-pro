@@ -48,6 +48,7 @@ export default sharedStyles = {
   COLOR_LIGHT_GRAY: "#CCCCCC",
   COLOR_RED: "#A82F29",
   COLOR_WHITE: "#FFFFFF",
+  COLOR_MODAL_BG: 'rgba(11, 22, 59, 0.75)',
 
 
   // FONTS
@@ -65,7 +66,5 @@ export default sharedStyles = {
     borderColor: 'gray',
     borderStyle: 'dotted',
   }
-
-
 
 }

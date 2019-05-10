@@ -29,7 +29,7 @@ export default class TeamList extends Component {
   componentDidMount() {
     StoreUtils.getStore('TeamStore')
       .then(teamStore => {
-        // console.log("teamStore", teamStore);
+        console.log("teamStore", teamStore);
         if (teamStore !== null) {
           this.setState({teamStore}, () => {
             this.setState({teamList: Utils.createTeamList(teamStore), showEmptyMessage: false})

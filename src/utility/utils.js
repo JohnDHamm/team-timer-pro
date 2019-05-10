@@ -11,6 +11,11 @@ const Utils = {
     timeObj.main = time[0];
     timeObj.decimal = time[1];
     return timeObj;
+  },
+  convertMMSStoMS: (minutes, seconds) => {
+    const mins = parseInt(minutes) * 60 * 1000;
+    const secs = parseInt(seconds) * 1000;
+    return mins + secs;
   }
 
 };

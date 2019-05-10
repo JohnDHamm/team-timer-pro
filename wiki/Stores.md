@@ -13,6 +13,25 @@
 }
 ```
 
+### TeamStore (pro)
+```
+{
+    "Bob": {
+        "name": "Bob",
+        "swim_pace": 63000,
+        "bike_pace": 17.4,
+        "run_pace": 512000
+    },
+    "Suzy": {
+        "name": "Suzy",
+        "swim_pace": 74000,
+        "bike_pace": 15.2,
+        "run_pace": 585000
+    },
+    ...
+}
+```
+
 ### WorkoutStore (basic)
 ```
 {
