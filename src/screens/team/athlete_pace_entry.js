@@ -5,11 +5,12 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Modal,
+  Modal
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 
 import StoreUtils from '../../utility/store_utils';
+import Utils from '../../utility/utils';
 import sharedStyles from '../../styles/shared_styles'
 import IMAGES from '@assets/images';
 import SecondaryButton from '../../components/secondary_button';
@@ -26,7 +27,6 @@ export default class AthletePaceEntry extends Component {
     super(props);
     this.state = {
       teamStore: {},
-      // newName: "",
       // showSaveBtn: false,
       showErrMsg: false,
       errMsg: "Please set the pace units for your team in settings!",
@@ -54,7 +54,6 @@ export default class AthletePaceEntry extends Component {
         } else {
           this.setState({ showErrMsg: true })
         }
-        // this.setState({ showErrMsg: true }) //temp to check err message
       })
   }
 
@@ -72,9 +71,9 @@ export default class AthletePaceEntry extends Component {
 
   setSwimPace(minutes, seconds) {
     console.log("swim pace:", minutes, ":", seconds);
-    this.setState({ swimPaceDisplay: `${minutes}:${seconds}` })
-
-    // this.setState({swimPace: })
+    this.setState({ swimPaceDisplay: `${minutes}:${seconds}` });
+    const swimPace =  Utils.convertMMSStoMS(minutes, seconds);
+    this.setState({ swimPace })
   }
 
   setBikePace(pace) {
@@ -84,12 +83,10 @@ export default class AthletePaceEntry extends Component {
 
   setRunPace(minutes, seconds) {
     console.log("run pace:", minutes, ":", seconds);
-    this.setState({ runPaceDisplay: `${minutes}:${seconds}` })
-
-    // this.setState({swimPace: })
+    this.setState({ runPaceDisplay: `${minutes}:${seconds}` });
+    const runPace =  Utils.convertMMSStoMS(minutes, seconds);
+    this.setState({ runPace })
   }
-
-
 
   saveAthlete() {
     let updatedTeam = this.state.teamStore;
@@ -101,7 +98,6 @@ export default class AthletePaceEntry extends Component {
     };
     updatedTeam[this.state.name] = newAthlete;
     // console.log("updatedTeam", updatedTeam);
-
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: 'TeamList'})]
@@ -109,7 +105,6 @@ export default class AthletePaceEntry extends Component {
     StoreUtils.setStore('TeamStore', updatedTeam)
       .then(() => this.props.navigation.dispatch(resetAction));
   }
-
 
 
   render(){
