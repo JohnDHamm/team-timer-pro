@@ -3,12 +3,9 @@ import {
   View,
   Text,
   Image,
-  TextInput,
   StyleSheet,
-  KeyboardAvoidingView,
   TouchableOpacity,
   Modal,
-  PickerIOS
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -17,6 +14,7 @@ import sharedStyles from '../../styles/shared_styles'
 import IMAGES from '@assets/images';
 import SecondaryButton from '../../components/secondary_button';
 import BikePaceModal from '../../components/bike_pace_modal';
+import TimePaceModal from '../../components/time_pace_modal';
 
 export default class AthletePaceEntry extends Component {
 
@@ -38,7 +36,9 @@ export default class AthletePaceEntry extends Component {
       swimPace: 0,
       bikePace: 0,
       runPace: 0,
-      showBikePaceModal: false
+      showSwimPaceModal: false,
+      showBikePaceModal: false,
+      showRunPaceModal: false,
     }
   };
 
@@ -70,10 +70,25 @@ export default class AthletePaceEntry extends Component {
     }
   }
 
+  setSwimPace(minutes, seconds) {
+    console.log("swim pace:", minutes, ":", seconds);
+    this.setState({ swimPaceDisplay: `${minutes}:${seconds}` })
+
+    // this.setState({swimPace: })
+  }
+
   setBikePace(pace) {
-    console.log("pace:", pace);
+    console.log("bike pace:", pace);
     this.setState({ bikePace: pace, bikePaceDisplay: pace })
   }
+
+  setRunPace(minutes, seconds) {
+    console.log("run pace:", minutes, ":", seconds);
+    this.setState({ runPaceDisplay: `${minutes}:${seconds}` })
+
+    // this.setState({swimPace: })
+  }
+
 
 
   saveAthlete() {
@@ -118,9 +133,13 @@ export default class AthletePaceEntry extends Component {
                     style={[styles.icon, styles.swimIcon]}
                     source={IMAGES.SWIM_ICON_LG}
                     />
-                  <Text style={styles.paceText}>
-                    {this.state.swimPaceDisplay}
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => this.setState({showSwimPaceModal: true})}
+                  >
+                    <Text style={styles.paceText}>
+                      {this.state.swimPaceDisplay}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <Text style={styles.label}>
                   /100{this.state.paceStore ? this.state.paceStore.swim : null}
@@ -150,9 +169,13 @@ export default class AthletePaceEntry extends Component {
                     style={[styles.icon, styles.runIcon]}
                     source={IMAGES.RUN_ICON_LG}
                   />
-                  <Text style={styles.paceText}>
-                    {this.state.runPaceDisplay}
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => this.setState({showRunPaceModal: true})}
+                  >
+                    <Text style={styles.paceText}>
+                      {this.state.runPaceDisplay}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <Text style={styles.label}>
                   /{this.state.paceStore ? this.state.paceStore.run : null}
@@ -173,6 +196,17 @@ export default class AthletePaceEntry extends Component {
         }
 
         <Modal
+          visible={this.state.showSwimPaceModal}
+          animationType='slide'
+          transparent={true}
+          onRequestClose={() => this.setState({ showSwimPaceModal: false })}
+        >
+          <TimePaceModal
+            closeModal={() => this.setState({ showSwimPaceModal: false })}
+            setPace={(minutes, seconds) => this.setSwimPace(minutes, seconds)}
+          />
+        </Modal>
+        <Modal
           visible={this.state.showBikePaceModal}
           animationType='slide'
           transparent={true}
@@ -183,11 +217,23 @@ export default class AthletePaceEntry extends Component {
             setBikePace={(pace) => this.setBikePace(pace)}
           />
         </Modal>
+        <Modal
+          visible={this.state.showRunPaceModal}
+          animationType='slide'
+          transparent={true}
+          onRequestClose={() => this.setState({ showRunPaceModal: false })}
+        >
+          <TimePaceModal
+            closeModal={() => this.setState({ showRunPaceModal: false })}
+            setPace={(minutes, seconds) => this.setRunPace(minutes, seconds)}
+          />
+        </Modal>
 
       </View>
     )
   }
 }
+
 
 const iconWidth = 70;
 
