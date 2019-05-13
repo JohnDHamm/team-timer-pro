@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 import Toggle from '../../components/toggle';
 import SecondaryButton from '../../components/secondary_button';
@@ -62,58 +62,60 @@ export default class PaceUnits extends Component {
   render(){
 
     return(
-      <View style={sharedStyles.LAYOUT_MAIN_STRETCH}>
-        <View style={styles.block}>
-          <Image
-            style={[styles.icon, styles.swimIcon]}
-            source={IMAGES.SWIM_ICON_LG}
-          />
-          <View style={styles.row}>
-            <Text style={styles.rowText}>/100</Text>
-            <Toggle
-              labels={['yards', 'meters']}
-              selected={this.state.swim}
-              onToggle={(value) => this.toggleState("swim", value)}
+      <ScrollView>
+        <View style={sharedStyles.LAYOUT_MAIN_STRETCH}>
+          <View style={styles.block}>
+            <Image
+              style={[styles.icon, styles.swimIcon]}
+              source={IMAGES.SWIM_ICON_LG}
             />
+            <View style={styles.row}>
+              <Text style={styles.rowText}>/100</Text>
+              <Toggle
+                labels={['yards', 'meters']}
+                selected={this.state.swim}
+                onToggle={(value) => this.toggleState("swim", value)}
+              />
+            </View>
+          </View>
+          <View style={styles.block}>
+            <Image
+              style={[styles.icon, styles.bikeIcon]}
+              source={IMAGES.BIKE_ICON_LG}
+            />
+            <View style={styles.row}>
+              <Toggle
+                labels={['miles', 'kms']}
+                selected={this.state.bike}
+                onToggle={(value) => this.toggleState("bike", value)}
+              />
+              <Text style={styles.rowText}>/hour</Text>
+            </View>
+          </View>
+          <View style={styles.block}>
+            <Image
+              style={[styles.icon, styles.runIcon]}
+              source={IMAGES.RUN_ICON_LG}
+            />
+            <View style={styles.row}>
+              <Text style={styles.rowText}>/</Text>
+              <Toggle
+                labels={['mile', 'km']}
+                selected={this.state.run}
+                onToggle={(value) => this.toggleState("run", value)}
+              />
+            </View>
+          </View>
+          <View style={styles.block}>
+          <TouchableOpacity
+            onPress={() => this.saveUnits()}>
+            <SecondaryButton
+              label={'save units'}
+              color={sharedStyles.COLOR_PURPLE}/>
+          </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.block}>
-          <Image
-            style={[styles.icon, styles.bikeIcon]}
-            source={IMAGES.BIKE_ICON_LG}
-          />
-          <View style={styles.row}>
-            <Toggle
-              labels={['miles', 'kms']}
-              selected={this.state.bike}
-              onToggle={(value) => this.toggleState("bike", value)}
-            />
-            <Text style={styles.rowText}>/hour</Text>
-          </View>
-        </View>
-        <View style={styles.block}>
-          <Image
-            style={[styles.icon, styles.runIcon]}
-            source={IMAGES.RUN_ICON_LG}
-          />
-          <View style={styles.row}>
-            <Text style={styles.rowText}>/</Text>
-            <Toggle
-              labels={['mile', 'km']}
-              selected={this.state.run}
-              onToggle={(value) => this.toggleState("run", value)}
-            />
-          </View>
-        </View>
-        <View style={styles.block}>
-        <TouchableOpacity
-          onPress={() => this.saveUnits()}>
-          <SecondaryButton
-            label={'save units'}
-            color={sharedStyles.COLOR_PURPLE}/>
-        </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     )
   }
 }

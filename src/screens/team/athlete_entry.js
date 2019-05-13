@@ -82,6 +82,7 @@ export default class AthleteEntry extends Component {
               selectionColor={sharedStyles.COLOR_PURPLE}
               maxLength={10}
               autoFocus={true}
+              returnKeyType='done'
             />
           </View>
         </View>
