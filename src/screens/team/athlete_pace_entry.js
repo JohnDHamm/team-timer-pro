@@ -47,10 +47,10 @@ export default class AthletePaceEntry extends Component {
     // console.log("existing teamStore", teamStore);
     // console.log("new athlete name", name);
     this.setState({name, teamStore});
-    StoreUtils.getStore('PaceUnitsStore')
+    StoreUtils.getStore('UserSettingsStore')
       .then(res => {
         if (res !== null) {
-          this.setState({paceStore: res}, () => console.log("paceStore", this.state.paceStore))
+          this.setState({paceStore: res.pace_units}, () => console.log("paceStore", this.state.paceStore))
         } else {
           this.setState({ showErrMsg: true })
         }

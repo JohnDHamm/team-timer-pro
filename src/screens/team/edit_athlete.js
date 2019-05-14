@@ -26,9 +26,10 @@ export default class EditAthlete extends Component {
   };
 
   componentDidMount() {
-    const { teamStore, currentName } = this.props.navigation.state.params;
+    const { teamStore, athlete } = this.props.navigation.state.params;
     // console.log("existing teamStore", teamStore);
-    this.setState({teamStore, currentName});
+    console.log("existing athlete", athlete);
+    this.setState({teamStore, currentName: athlete.name});
   }
 
   onChangeText(newName) {

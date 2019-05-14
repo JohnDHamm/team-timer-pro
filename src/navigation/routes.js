@@ -1,3 +1,5 @@
+import SetupUserName from '../screens/setup/setup_user_name';
+import SetupPaceUnits from '../screens/setup/setup_pace_units';
 import TeamList from '../screens/team/team_list';
 import AthleteEntry from '../screens/team/athlete_entry';
 import AthletePaceEntry from '../screens/team/athlete_pace_entry';
@@ -11,11 +13,16 @@ import ConfirmWorkout from '../screens/workout/confirm_workout';
 import ResultsList from '../screens/results/results_list';
 import WorkoutDetail from '../screens/results/workout_detail';
 import Menu from '../screens/settings/menu';
+import UserName from '../screens/settings/user_name';
 import PaceUnits from '../screens/settings/pace_units';
 
 const Routes = {
+  SetupRoutes: {
+    SetupUserName: { screen: SetupUserName },
+    SetupPaceUnits: { screen: SetupPaceUnits }
+  },
   WorkoutRoutes: {
-    SelectDiscipline: { screen: SelectDiscipline},
+    SelectDiscipline: { screen: SelectDiscipline },
     LapCount: { screen: LapCount },
     LapDistance: { screen: LapDistance },
     LapMetric: { screen: LapMetric },
@@ -34,7 +41,8 @@ const Routes = {
   },
   SettingsRoutes: {
     Menu: { screen: Menu },
-    PaceUnits: { screen: PaceUnits}
+    UserName: { screen: UserName },
+    PaceUnits: { screen: PaceUnits }
   }
 };
 

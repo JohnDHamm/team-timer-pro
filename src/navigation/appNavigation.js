@@ -5,6 +5,7 @@ import { createStackNavigator, createBottomTabNavigator, createAppContainer } fr
 import Routes from './routes';
 import Splash from '../screens/main/splash';
 import Timer from '../screens/main/timer';
+import SetupHome from '../screens/setup/setup_home';
 
 import IMAGES from '@assets/images'
 import sharedStyles from '../styles/shared_styles';
@@ -24,6 +25,11 @@ const appHeaderOptions = {
   },
   headerTintColor: sharedStyles.COLOR_LIGHT_BLUE,
 };
+
+const SetupStack = createStackNavigator( Routes.SetupRoutes,
+  { initialRouteName: 'SetupUserName',
+    defaultNavigationOptions: appHeaderOptions,
+  });
 
 const WorkoutStack = createStackNavigator( Routes.WorkoutRoutes,
   { initialRouteName: 'SelectDiscipline',
@@ -112,6 +118,8 @@ const MainStackConfig = {
 
 const MainStack = createStackNavigator({
 	Splash: { screen: Splash },
+  SetupHome: { screen: SetupHome},
+  Setup: { screen: SetupStack },
 	MainApp: { screen: TabNav },
   Timer: { screen: Timer }
  }, MainStackConfig

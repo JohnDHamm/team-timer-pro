@@ -93,12 +93,15 @@
 }
 ```
 
-### PaceUnitsStore
+### UserSettingsStore
 
 ```
 {
-    "swim": "yd", // or "m"
-    "bike": "mi", // or "km"
-    "run": "mi"   // or "km"
+    "pace_units": {
+        "swim": "yd", // or "m"
+        "bike": "mi", // or "km"
+        "run": "mi"   // or "km"
+    },
+    "user_name": "John"
 }
 ```
