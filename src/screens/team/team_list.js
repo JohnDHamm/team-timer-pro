@@ -44,7 +44,7 @@ export default class TeamList extends Component {
         <TouchableOpacity
           key={athlete.name}
           style={styles.athleteBtn}
-          onPress={() => this.props.navigation.navigate('EditAthlete', {teamStore: this.state.teamStore, currentName: athlete.name})}
+          onPress={() => this.props.navigation.navigate('EditAthlete', {teamStore: this.state.teamStore, athlete})}
           >
           <Text style={styles.athleteName}>{athlete.name}</Text>
         </TouchableOpacity>

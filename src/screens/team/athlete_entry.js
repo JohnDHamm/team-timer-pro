@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity} from 'react-native'
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation';
 
 import StoreUtils from '../../utility/store_utils';
@@ -82,6 +82,7 @@ export default class AthleteEntry extends Component {
               selectionColor={sharedStyles.COLOR_PURPLE}
               maxLength={10}
               autoFocus={true}
+              returnKeyType='done'
             />
           </View>
         </View>

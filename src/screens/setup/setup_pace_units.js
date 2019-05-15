@@ -9,11 +9,10 @@ import IMAGES from '@assets/images';
 import StoreUtils from "../../utility/store_utils";
 import { PACE_UNITS, DISCIPLINES } from '../../utility/constants';
 
-export default class PaceUnits extends Component {
+export default class SetupPaceUnits extends Component {
 
   static navigationOptions = {
-    title: 'Pace units',
-    headerBackTitle: 'Pace',
+    title: 'Setup - pace units',
   };
 
   constructor(props) {
@@ -25,41 +24,20 @@ export default class PaceUnits extends Component {
     }
   };
 
-  componentDidMount() {
-    StoreUtils.getStore('UserSettingsStore')
-      .then(res => {
-        console.log("UserSettingsStore", res);
-        if (res !== null) {
-          this.setState({ userStore: res });
-          this.initState(res.pace_units);
-        }
-      })
-  }
-
-  initState(storePaceUnits) {
-    DISCIPLINES.forEach((disc) => {
-      if (storePaceUnits[disc] === PACE_UNITS[disc][0]) {
-        this.setState({[disc]: 0})
-      } else {
-        this.setState({[disc]: 1})
-      }
-    })
-  }
-
   toggleState(discipline, value) {
     this.setState({[discipline]: value})
   }
 
-  saveUnits() {
-    let store = Object.assign({}, this.state.userStore);
-    delete store.pace_units;
-    let paceUnits = {};
+  completeSetup() {
+    let store = {};
+    store.user_name = this.props.navigation.state.params.name;
+    let paceUnits ={};
     DISCIPLINES.forEach((disc) => {
       paceUnits[disc] = PACE_UNITS[disc][this.state[disc]];
     });
     store.pace_units = paceUnits;
     StoreUtils.setStore("UserSettingsStore", store)
-      .then(() => this.props.navigation.goBack())
+      .then(() => this.props.navigation.navigate('MainApp'))
   }
 
 
@@ -111,9 +89,9 @@ export default class PaceUnits extends Component {
           </View>
           <View style={styles.block}>
             <TouchableOpacity
-              onPress={() => this.saveUnits()}>
+              onPress={() => this.completeSetup()}>
               <SecondaryButton
-                label={'save units'}
+                label={'complete setup'}
                 color={sharedStyles.COLOR_PURPLE}/>
             </TouchableOpacity>
           </View>

@@ -4,6 +4,7 @@ import { Font } from 'expo';
 
 import sharedStyles from '../../styles/shared_styles';
 import IMAGES from '@assets/images'
+import StoreUtils from "../../utility/store_utils";
 
 export default class Splash extends Component {
 
@@ -13,8 +14,15 @@ export default class Splash extends Component {
       'dosis-medium': require('../../../assets/fonts/Dosis-Medium.ttf'),
       'dosis-light': require('../../../assets/fonts/Dosis-Light.ttf'),
       'dosis-semiBold': require('../../../assets/fonts/Dosis-SemiBold.ttf'),
-    })
-    setTimeout(() => this.props.navigation.navigate('MainApp'), 1000);
+    });
+    StoreUtils.getStore('UserSettingsStore')
+      .then(res => {
+        if (res !== null) {
+          setTimeout(() => this.props.navigation.navigate('MainApp'), 1000);
+        } else {
+          setTimeout(() => this.props.navigation.navigate('SetupHome'), 1000);
+        }
+      });
   }
 
   render(){
