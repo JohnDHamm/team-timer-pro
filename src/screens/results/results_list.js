@@ -33,7 +33,7 @@ export default class ResultsList extends Component {
     StoreUtils.getStore('WorkoutStore')
       .then(res => {
         if (res !== null) {
-          // console.log("WorkoutStore", res);
+          console.log("WorkoutStore", res);
           this.setState({workoutStore: res});
           this.sortList(res);
         }
@@ -52,6 +52,37 @@ export default class ResultsList extends Component {
     }
   }
 
+  renderIcon(disc) {
+    switch (disc) {
+      case 'swim':
+        return(
+          <Image
+            source={IMAGES.SWIM_ICON_SM}
+            style={[styles.itemIcon, styles.swimIcon]}
+            />
+        );
+        break;
+      case 'bike':
+        return(
+          <Image
+            source={IMAGES.BIKE_ICON_SM}
+            style={[styles.itemIcon, styles.bikeIcon]}
+          />
+        );
+        break;
+      case 'run':
+        return(
+          <Image
+            source={IMAGES.RUN_ICON_SM}
+            style={[styles.itemIcon, styles.runIcon]}
+          />
+        );
+        break;
+      default:
+        console.log("missing discipline");
+    }
+  }
+
   renderWorkouts() {
     return _.map(this.state.workouts, workout => {
       return (
@@ -60,6 +91,7 @@ export default class ResultsList extends Component {
           key={workout.id}
           onPress={() => this.selectWorkout(workout)}
         >
+          {this.renderIcon(workout.discipline)}
           <Text style={styles.workoutLabel}>{workout.description}</Text>
         </TouchableOpacity>
       )
@@ -83,7 +115,7 @@ export default class ResultsList extends Component {
 
   render(){
     return(
-      <View style={[sharedStyles.LAYOUT_MAIN_STRETCH]}>
+      <View style={[sharedStyles.LAYOUT_MAIN_STRETCH, {paddingLeft: 10}]}>
         <NavigationEvents
           onWillFocus={() => this.getResults()}
         />
@@ -109,6 +141,8 @@ export default class ResultsList extends Component {
   }
 }
 
+const iconWidth = 30;
+
 const styles = StyleSheet.create({
 	emptyContainer: {
 		justifyContent: 'center',
@@ -126,12 +160,29 @@ const styles = StyleSheet.create({
     color: sharedStyles.COLOR_RED
   },
   workoutBtn: {
+	  flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     marginBottom: 20,
-    paddingLeft: 10
+    // paddingLeft: 10
   },
   workoutLabel: {
 	  color: sharedStyles.COLOR_PURPLE,
     fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
     fontSize: 35,
+  },
+  itemIcon: {
+	  width: iconWidth,
+    tintColor: sharedStyles.COLOR_GREEN,
+    marginRight: 5
+  },
+  swimIcon: {
+	  height: iconWidth / IMAGES.SWIM_ICON_ASPECT
+  },
+  bikeIcon: {
+	  height: iconWidth / IMAGES.BIKE_ICON_ASPECT
+  },
+  runIcon: {
+	  height: iconWidth / IMAGES.RUN_ICON_ASPECT
   }
 });
