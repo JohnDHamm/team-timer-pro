@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
 import _ from 'lodash';
 import Utils from '../../utility/utils'
 
 import Separator from '../../components/separator';
 import SecondaryButton from '../../components/secondary_button';
+import ResultDetailHeader from '../../components/result_detail_header';
 
 import sharedStyles from '../../styles/shared_styles';
 import StoreUtils from '../../utility/store_utils'
+import IMAGES from "../../../assets/images";
 
 const resultsWidth = sharedStyles.DEVICE_WIDTH * 0.5;
 
@@ -16,9 +18,9 @@ export default class WorkoutDetail extends Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.getParam('headerTitle', 'Result detail')
+      headerTitle: <ResultDetailHeader workout={navigation.getParam('selectedWorkout')} />
     }
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -30,7 +32,7 @@ export default class WorkoutDetail extends Component {
 
   componentDidMount() {
     const { selectedWorkout, workoutStore } = this.props.navigation.state.params;
-    console.log("selected workout: ", selectedWorkout);
+    // console.log("selected workout: ", selectedWorkout);
     this.setState({ selectedWorkout, workoutStore });
   }
 
