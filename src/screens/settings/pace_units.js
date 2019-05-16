@@ -28,7 +28,7 @@ export default class PaceUnits extends Component {
   componentDidMount() {
     StoreUtils.getStore('UserSettingsStore')
       .then(res => {
-        console.log("UserSettingsStore", res);
+        // console.log("UserSettingsStore", res);
         if (res !== null) {
           this.setState({ userStore: res });
           this.initState(res.pace_units);
