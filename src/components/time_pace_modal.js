@@ -56,7 +56,6 @@ export default class TimePaceModal extends Component {
 
 
   savePace() {
-    console.log("save pace", this.state.minutes, ':', this.state.seconds);
     this.props.setPace(this.state.minutes, this.state.seconds);
     this.props.closeModal()
   }

@@ -50,7 +50,7 @@ export default class AthletePaceEntry extends Component {
     StoreUtils.getStore('UserSettingsStore')
       .then(res => {
         if (res !== null) {
-          this.setState({paceStore: res.pace_units}, () => console.log("paceStore", this.state.paceStore))
+          this.setState({paceStore: res.pace_units})
         } else {
           this.setState({ showErrMsg: true })
         }
@@ -70,19 +70,16 @@ export default class AthletePaceEntry extends Component {
   }
 
   setSwimPace(minutes, seconds) {
-    console.log("swim pace:", minutes, ":", seconds);
     this.setState({ swimPaceDisplay: `${minutes}:${seconds}` });
     const swimPace =  Utils.convertMMSStoMS(minutes, seconds);
     this.setState({ swimPace })
   }
 
   setBikePace(pace) {
-    console.log("bike pace:", pace);
     this.setState({ bikePace: pace, bikePaceDisplay: pace })
   }
 
   setRunPace(minutes, seconds) {
-    console.log("run pace:", minutes, ":", seconds);
     this.setState({ runPaceDisplay: `${minutes}:${seconds}` });
     const runPace =  Utils.convertMMSStoMS(minutes, seconds);
     this.setState({ runPace })

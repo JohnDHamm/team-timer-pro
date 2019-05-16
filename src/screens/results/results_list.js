@@ -5,9 +5,9 @@ import { NavigationEvents } from 'react-navigation';
 import _ from 'lodash';
 
 import StoreUtils from '../../utility/store_utils';
-
 import IMAGES from '@assets/images';
 import sharedStyles from '../../styles/shared_styles';
+import DisciplineIcon from "../../components/discipline_icon";
 
 export default class ResultsList extends Component {
 
@@ -54,34 +54,6 @@ export default class ResultsList extends Component {
     }
   }
 
-  renderIcon(disc) {
-    switch (disc) {
-      case 'swim':
-        return(
-          <Image
-            source={IMAGES.SWIM_ICON_SM}
-            style={[styles.itemIcon, styles.swimIcon]}
-            />
-        );
-      case 'bike':
-        return(
-          <Image
-            source={IMAGES.BIKE_ICON_SM}
-            style={[styles.itemIcon, styles.bikeIcon]}
-          />
-        );
-      case 'run':
-        return(
-          <Image
-            source={IMAGES.RUN_ICON_SM}
-            style={[styles.itemIcon, styles.runIcon]}
-          />
-        );
-      default:
-        console.log("missing discipline!!!!");
-    }
-  }
-
   renderWorkouts() {
     return _.map(this.state.workouts, workout => {
       if (this.state.filters[workout.discipline]) {
@@ -91,7 +63,10 @@ export default class ResultsList extends Component {
             key={workout.id}
             onPress={() => this.selectWorkout(workout)}
           >
-            {this.renderIcon(workout.discipline)}
+            <DisciplineIcon
+              disc={workout.discipline}
+              iconStyle={{ width: 30, tintColor: sharedStyles.COLOR_GREEN }}
+            />
             <Text style={styles.workoutLabel}>{workout.description}</Text>
           </TouchableOpacity>
         )
@@ -248,11 +223,7 @@ const styles = StyleSheet.create({
 	  color: sharedStyles.COLOR_PURPLE,
     fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
     fontSize: 35,
-  },
-  itemIcon: {
-	  width: iconWidth,
-    tintColor: sharedStyles.COLOR_GREEN,
-    marginRight: 5
+    paddingLeft: 5
   },
   swimIcon: {
 	  height: iconWidth / IMAGES.SWIM_ICON_ASPECT

@@ -14,14 +14,11 @@ export default class BikePaceModal extends Component {
   };
 
   onChangeText(value) {
-    console.log("bike pace", value);
-    //check for non-zero
     // convert string to floating point num?????
     this.setState({bikePace: value})
   }
 
   savePace() {
-    console.log("save pace", this.state.bikePace);
     this.props.setBikePace(this.state.bikePace);
     this.props.closeModal()
   }
