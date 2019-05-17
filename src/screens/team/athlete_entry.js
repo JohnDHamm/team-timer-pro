@@ -5,6 +5,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import StoreUtils from '../../utility/store_utils';
 import sharedStyles from '../../styles/shared_styles'
 import SecondaryButton from '../../components/secondary_button'
+import NextButton from "../../components/next_button";
 
 export default class AthleteEntry extends Component {
 
@@ -86,26 +87,27 @@ export default class AthleteEntry extends Component {
             />
           </View>
         </View>
-        <View style={ styles.bottomContainer}>
+        <View style={styles.bottomContainer}>
           {this.state.showErrMsg &&
             <Text style={styles.errMsg}>{this.state.errMsg}</Text>
           }
           {this.state.showSaveBtn &&
             <View>
-              <TouchableOpacity
-                onPress={() => this.saveAthlete()}>
-                <SecondaryButton
-                  label={'save athlete'}
-                  color={sharedStyles.COLOR_PURPLE}/>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.paceButton}
-                onPress={() => this.props.navigation.navigate('AthletePaceEntry', { ...this.props.navigation.state.params, name: this.state.newName })}>
-                <SecondaryButton
+              <View style={styles.saveBtnContainer}>
+                <TouchableOpacity
+                  onPress={() => this.saveAthlete()}>
+                  <SecondaryButton
+                    label={'save athlete'}
+                    color={sharedStyles.COLOR_PURPLE}/>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.nextContainer}>
+                <NextButton
                   label={'add pace info'}
-                  color={sharedStyles.COLOR_PURPLE}/>
-              </TouchableOpacity>
-              <Text style={styles.optionalText}>[optional]</Text>
+                  disabled={false}
+                  onPress={() => this.props.navigation.navigate(`AthletePaceEntry`, { ...this.props.navigation.state.params, name: this.state.newName })}/>
+                <Text style={styles.optionalText}>[optional]</Text>
+              </View>
             </View>
           }
         </View>
@@ -136,9 +138,16 @@ const styles = StyleSheet.create({
   bottomContainer: {
 	  flex: 0.6,
     paddingTop: 20,
+    alignSelf: 'stretch',
   },
-  paceButton: {
-	  marginTop: 30
+  saveBtnContainer: {
+	  justifyContent: 'center',
+    alignItems: 'center'
+  },
+  nextContainer: {
+    alignSelf: 'stretch',
+    alignItems: 'flex-end',
+    paddingTop: 30
   },
   optionalText: {
 	  textAlign: 'center',

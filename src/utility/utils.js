@@ -14,8 +14,7 @@ const Utils = {
     return timeObj;
   },
   createDisplaySpeed: (speed) => {
-    const speedString = speed.toFixed(1);
-    const speedArray = speedString.split('.');
+    const speedArray = speed.toFixed(1).split('.');
     let speedObj = {};
     speedObj.main = speedArray[0];
     speedObj.decimal = speedArray[1];
