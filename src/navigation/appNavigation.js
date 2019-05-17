@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     height: 24,
   },
   teamTabIcon: {
-    width: 32,
+    width: 35,
     height: 24,
   },
   settingsTabIcon: {
