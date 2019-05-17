@@ -9,13 +9,18 @@ export default class BikePaceModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showSaveBtn: true,
       bikePace: 0
     }
   };
 
   onChangeText(value) {
-    // convert string to floating point num?????
-    this.setState({bikePace: value})
+    let valueFloat = parseFloat(value);
+    if (!valueFloat) {
+      this.setState({ showSaveBtn: false });
+    } else {
+      this.setState({ showSaveBtn: true, bikePace: valueFloat });
+    }
   }
 
   savePace() {
@@ -47,14 +52,18 @@ export default class BikePaceModal extends Component {
                 autoFocus={true}
               />
             </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => this.savePace()}>
-                <SecondaryButton
-                  label={'save pace'}
-                  color={sharedStyles.COLOR_PURPLE}/>
-              </TouchableOpacity>
-            </View>
+            {this.state.showSaveBtn ?
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  onPress={() => this.savePace()}>
+                  <SecondaryButton
+                    label={'save pace'}
+                    color={sharedStyles.COLOR_PURPLE}/>
+                </TouchableOpacity>
+              </View>
+              :
+              <Text style={styles.errMsg}>please enter a valid number</Text>
+            }
           </View>
         </View>
       </View>
@@ -108,5 +117,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
    alignItems: 'center',
+  },
+  errMsg: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 20,
+    color: sharedStyles.COLOR_RED,
+    paddingVertical: 6
   }
 });

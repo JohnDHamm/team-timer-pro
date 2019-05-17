@@ -76,7 +76,8 @@ export default class AthletePaceEntry extends Component {
   }
 
   setBikePace(pace) {
-    this.setState({ bikePace: pace, bikePaceDisplay: pace })
+    const bikePaceDisplay = pace.toFixed(1);
+    this.setState({ bikePace: pace, bikePaceDisplay })
   }
 
   setRunPace(minutes, seconds) {
