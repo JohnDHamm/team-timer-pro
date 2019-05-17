@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Font } from 'expo';
 
 import sharedStyles from '../../styles/shared_styles';
@@ -7,6 +7,13 @@ import IMAGES from '@assets/images'
 import StoreUtils from "../../utility/store_utils";
 
 export default class Splash extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: ''
+    }
+  }
 
   async componentDidMount() {
     await Font.loadAsync({
@@ -18,7 +25,9 @@ export default class Splash extends Component {
     StoreUtils.getStore('UserSettingsStore')
       .then(res => {
         if (res !== null) {
-          setTimeout(() => this.props.navigation.navigate('MainApp'), 1000);
+          this.setState({ userName: res.user_name }, () => {
+            setTimeout(() => this.props.navigation.navigate('MainApp'), 1000);
+          });
         } else {
           setTimeout(() => this.props.navigation.navigate('SetupHome'), 1000);
         }
@@ -30,7 +39,16 @@ export default class Splash extends Component {
       <View style={styles.container}>
         <Image
           source={IMAGES.TT_PRO_LOGO_TITLE_LG}
-          style={styles.logo}/>
+          style={styles.logo}
+        />
+        {this.state.userName ?
+          <View style={styles.welcomeBlock}>
+            <Text style={styles.welcome}>Welcome back,</Text>
+            <Text style={styles.welcome}>Coach {this.state.userName}!</Text>
+          </View>
+          :
+          null
+        }
       </View>
     )
   }
@@ -49,5 +67,14 @@ const styles = StyleSheet.create({
   logo: {
 	  width: logoWidth,
     height: logoWidth / IMAGES.TT_PRO_LOGO_TITLE_ASPECT
+  },
+  welcomeBlock: {
+	  paddingTop: 30
+  },
+  welcome: {
+    fontWeight: '200',
+    color: sharedStyles.COLOR_GREEN,
+    fontSize: 25,
+    textAlign: 'center'
   }
 });
