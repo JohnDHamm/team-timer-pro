@@ -35,12 +35,12 @@ export default class SelectAthletes extends Component {
   getAthletes() {
     StoreUtils.getStore('TeamStore')
       .then(teamStore => {
+        // console.log("teamStore:", teamStore);
         if (teamStore !== null) {
           this.setState({teamList: Utils.createTeamList(teamStore), showEmptyMessage: false})
         }
       });
   }
-
 
   renderTeamList() {
     if (!this.state.teamList) return;

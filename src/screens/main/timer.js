@@ -43,12 +43,38 @@ export default class Timer extends Component {
   componentDidMount() {
     // console.log("workout params:", this.props.navigation.state.params);
     const { discipline, lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
-    const sortedAthletes = selectedAthletes.sort();
     this.setState({workoutData: { discipline, lapCount, lapDistance, lapMetric }},
-      () => this.setupTimer(sortedAthletes));
+      () => this.sortAthletes(selectedAthletes));
+  }
+
+  sortAthletes(selectedAthletes) {
+    StoreUtils.getStore('TeamStore')
+      .then(teamStore => {
+        let discPace = `${this.state.workoutData.discipline}_pace`;
+        let workoutTeam = [];
+        _.forEach(teamStore, (value, key) => {
+          if (selectedAthletes.includes(key)) {
+            workoutTeam.push({ name: value.name, pace: value[discPace]})
+          }
+        });
+        const pacedAthletes = workoutTeam.filter(ath => ath.pace !== 0);
+        if (this.state.workoutData.discipline === 'bike') {
+          pacedAthletes.sort((a,b) => b.pace > a.pace)
+        } else {
+          pacedAthletes.sort((a,b) => a.pace > b.pace)
+        }
+        const unpacedAthletes = workoutTeam.filter(ath => ath.pace === 0);
+        const allAthletes = pacedAthletes.concat(unpacedAthletes);
+        let sortedAthletes = [];
+        allAthletes.forEach(ath => {
+          sortedAthletes.push(ath.name)
+        });
+        this.setupTimer(sortedAthletes)
+      })
   }
 
   setupTimer(sortedAthletes) {
+    // console.log("sortedAthletes:", sortedAthletes);
     this.createDescription();
     this.createAthletesArray(sortedAthletes);
   }
