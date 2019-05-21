@@ -22,6 +22,8 @@ export default class Timer extends Component {
     super(props);
     this.state = {
       workoutData: {},
+      paceUnits: {},
+      paceLabel: '',
       description: "",
       timerOn: false,
       startTime: 0,
@@ -41,10 +43,15 @@ export default class Timer extends Component {
   }
 
   componentDidMount() {
-    // console.log("workout params:", this.props.navigation.state.params);
     const { discipline, lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
     this.setState({workoutData: { discipline, lapCount, lapDistance, lapMetric }},
       () => this.sortAthletes(selectedAthletes));
+    StoreUtils.getStore('UserSettingsStore')
+      .then(res => {
+        const paceUnits = res.pace_units;
+        const paceLabel = Utils.getPaceLabel(discipline, paceUnits);
+        this.setState({paceUnits, paceLabel})
+      })
   }
 
   sortAthletes(selectedAthletes) {
@@ -74,7 +81,6 @@ export default class Timer extends Component {
   }
 
   setupTimer(sortedAthletes) {
-    // console.log("sortedAthletes:", sortedAthletes);
     this.createDescription();
     this.createAthletesArray(sortedAthletes);
   }
@@ -83,7 +89,8 @@ export default class Timer extends Component {
     const date = new Date(Date.now()).toDateString().split(" ");
     const month = date[1];
     const day = date[2].charAt(0) === "0" ? date[2].charAt(1) : date[2];
-    const description = `${month} ${day} - ${this.state.workoutData.lapCount} x ${this.state.workoutData.lapDistance}${this.state.workoutData.lapMetric}`;
+    const workoutData = this.state.workoutData;
+    const description = `${month} ${day} - ${workoutData.lapCount} x ${workoutData.lapDistance}${workoutData.lapMetric}`;
     this.setState({ description })
   }
 
@@ -101,6 +108,10 @@ export default class Timer extends Component {
         lapTimesArray: [0],
         workoutDone: false,
         elapsed: 0,
+        lastLapPace: {
+          decimal: '-',
+          main: '-'
+        }
       };
       athletesArray.push(athleteObj);
     }
@@ -209,6 +220,27 @@ export default class Timer extends Component {
         );
 
         const newCurrentLap = this.state.athletesArray[athleteIndex].currentLap + 1;
+        const lastLapTime = newLapArray[newCurrentLap] - newLapArray[newCurrentLap - 1];
+        const workoutData = this.state.workoutData;
+        const lastLapPace = Utils.calcPace(
+          workoutData.discipline,
+          {time: lastLapTime, distance: workoutData.lapDistance, metric: workoutData.lapMetric},
+          this.state.paceUnits[workoutData.discipline]
+        );
+        this.setState(prevState => ({
+          athletesArray: prevState.athletesArray.map(
+            obj => (obj.index === athleteIndex ?
+              Object.assign(obj, {lastLapPace: workoutData.discipline === 'bike' ?
+                  Utils.createDisplaySpeed(lastLapPace)
+                  :
+                  Utils.createDisplayTime(lastLapPace)
+                  })
+              :
+              obj
+            )
+          )
+        }));
+
         this.setState(prevState => ({
           athletesArray: prevState.athletesArray.map(
             obj => (obj.index === athleteIndex ? Object.assign(obj, {currentLap: newCurrentLap}) : obj)
@@ -333,11 +365,19 @@ export default class Timer extends Component {
               style={styles.athleteButton}
               onPress={() => this.recordLap(athlete.index)}
             >
-              <Text style={styles.athleteName}>{athlete.name}</Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 5}}>
+                <Text style={styles.athleteName}>{athlete.name}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end', paddingRight: 15}}>
                   <Text style={styles.lapLabel}>lap: </Text>
                   <Text style={styles.lapNum}>{athlete.currentLap + 1}</Text>
+                </View>
+              </View>
+
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 5}}>
+                  <Text style={styles.lastLapPaceMain}>{athlete.lastLapPace.main}.</Text>
+                  <Text style={styles.lastLapPaceDecimal}>{athlete.lastLapPace.decimal}</Text>
+                  <Text style={styles.lastLapPaceLabel}>{this.state.paceLabel}</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                   <Text style={styles.athleteReadoutMain}>{athlete.readout.main}.</Text>
@@ -346,6 +386,7 @@ export default class Timer extends Component {
                   </View>
                 </View>
               </View>
+
             </TouchableOpacity>
           </Animated.View>
         )
@@ -557,12 +598,32 @@ const styles = StyleSheet.create({
   },
   lapLabel: {
 	  fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
-	  fontSize: 30,
-    color: sharedStyles.COLOR_DARK_BLUE
+	  fontSize: 25,
+    color: sharedStyles.COLOR_DARK_BLUE,
+    paddingBottom: 4
   },
   lapNum: {
     fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
 	  fontSize: 30,
-    color: sharedStyles.COLOR_PURPLE
-  }
-});
+    color: sharedStyles.COLOR_PURPLE,
+    paddingBottom: 2
+  },
+  lastLapPaceDecimal: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 20,
+    color: sharedStyles.COLOR_DARK_BLUE,
+    paddingBottom: 1
+  },
+  lastLapPaceMain: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 25,
+    color: sharedStyles.COLOR_DARK_BLUE
+  },
+  lastLapPaceLabel: {
+    fontFamily: sharedStyles.FONT_PRIMARY_LIGHT,
+    fontSize: 17,
+    color: sharedStyles.COLOR_LIGHT_BLUE,
+    paddingBottom: 2,
+  },
+
+  });
