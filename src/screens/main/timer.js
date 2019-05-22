@@ -10,6 +10,7 @@ import _ from 'lodash';
 
 import IMAGES from '@assets/images';
 import sharedStyles from '../../styles/shared_styles';
+import DisciplineIcon from "../../components/discipline_icon";
 
 const athleteButtonHeight = 102;
 const spaceBetweenButtons = 20;
@@ -22,6 +23,8 @@ export default class Timer extends Component {
     super(props);
     this.state = {
       workoutData: {},
+      paceUnits: {},
+      paceLabel: '',
       description: "",
       timerOn: false,
       startTime: 0,
@@ -41,10 +44,15 @@ export default class Timer extends Component {
   }
 
   componentDidMount() {
-    // console.log("workout params:", this.props.navigation.state.params);
     const { discipline, lapCount, lapDistance, lapMetric, selectedAthletes } = this.props.navigation.state.params;
     this.setState({workoutData: { discipline, lapCount, lapDistance, lapMetric }},
       () => this.sortAthletes(selectedAthletes));
+    StoreUtils.getStore('UserSettingsStore')
+      .then(res => {
+        const paceUnits = res.pace_units;
+        const paceLabel = Utils.getPaceLabel(discipline, paceUnits);
+        this.setState({paceUnits, paceLabel})
+      })
   }
 
   sortAthletes(selectedAthletes) {
@@ -74,7 +82,6 @@ export default class Timer extends Component {
   }
 
   setupTimer(sortedAthletes) {
-    // console.log("sortedAthletes:", sortedAthletes);
     this.createDescription();
     this.createAthletesArray(sortedAthletes);
   }
@@ -83,7 +90,8 @@ export default class Timer extends Component {
     const date = new Date(Date.now()).toDateString().split(" ");
     const month = date[1];
     const day = date[2].charAt(0) === "0" ? date[2].charAt(1) : date[2];
-    const description = `${month} ${day} - ${this.state.workoutData.lapCount} x ${this.state.workoutData.lapDistance}${this.state.workoutData.lapMetric}`;
+    const workoutData = this.state.workoutData;
+    const description = `${month} ${day} - ${workoutData.lapCount} x ${workoutData.lapDistance}${workoutData.lapMetric}`;
     this.setState({ description })
   }
 
@@ -101,6 +109,15 @@ export default class Timer extends Component {
         lapTimesArray: [0],
         workoutDone: false,
         elapsed: 0,
+        lastLapPace: {
+          decimal: '-',
+          main: '-'
+        },
+        lastLapDiff: {
+          decimal: null,
+          main: null,
+        },
+        paceIsFaster: null
       };
       athletesArray.push(athleteObj);
     }
@@ -209,6 +226,57 @@ export default class Timer extends Component {
         );
 
         const newCurrentLap = this.state.athletesArray[athleteIndex].currentLap + 1;
+        const lastLapTime = newLapArray[newCurrentLap] - newLapArray[newCurrentLap - 1];
+        const workoutData = this.state.workoutData;
+        const lastLapPace = Utils.calcPace(
+          workoutData.discipline,
+          {time: lastLapTime, distance: workoutData.lapDistance, metric: workoutData.lapMetric},
+          this.state.paceUnits[workoutData.discipline]
+        );
+        this.setState(prevState => ({
+          athletesArray: prevState.athletesArray.map(
+            obj => (obj.index === athleteIndex ?
+              Object.assign(obj, {lastLapPace: workoutData.discipline === 'bike' ?
+                  Utils.createDisplaySpeed(lastLapPace)
+                  :
+                  Utils.createDisplayTime(lastLapPace)
+                  })
+              :
+              obj
+            )
+          )
+        }));
+        // lapPaceDiff
+        if (newCurrentLap > 1) {
+          const prevLapTime = newLapArray[newCurrentLap - 1] - newLapArray[newCurrentLap - 2];
+          const prevLapPace = Utils.calcPace(
+            workoutData.discipline,
+            {time: prevLapTime, distance: workoutData.lapDistance, metric: workoutData.lapMetric},
+            this.state.paceUnits[workoutData.discipline]
+          );
+          const lapPaceDiff = lastLapPace - prevLapPace;
+          const paceIsFaster = (lapPaceDiff < 0) ? workoutData.discipline !== 'bike' : workoutData.discipline === 'bike';
+          this.setState(prevState => ({
+            athletesArray: prevState.athletesArray.map(
+              obj => (obj.index === athleteIndex ? Object.assign(obj, {paceIsFaster}) : obj)
+            )
+          }));
+
+          this.setState(prevState => ({
+            athletesArray: prevState.athletesArray.map(
+              obj => (obj.index === athleteIndex ?
+                  Object.assign(obj, {lastLapDiff: workoutData.discipline === 'bike' ?
+                      Utils.createDisplaySpeed(lapPaceDiff)
+                      :
+                      Utils.createDisplayTime(Math.abs(lapPaceDiff))
+                  })
+                  :
+                  obj
+              )
+            )
+          }));
+        }
+
         this.setState(prevState => ({
           athletesArray: prevState.athletesArray.map(
             obj => (obj.index === athleteIndex ? Object.assign(obj, {currentLap: newCurrentLap}) : obj)
@@ -323,6 +391,23 @@ export default class Timer extends Component {
     return trueArray;
   }
 
+  renderPaceDiff(athlete) {
+    return (
+      athlete.lastLapDiff.main
+        ?
+          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+            <Image
+              style={[styles.paceDiffArrow, athlete.paceIsFaster ? styles.paceDiffArrowFaster : styles.paceDiffArrowSlower]}
+              source={IMAGES.UP_ARROW}
+            />
+            <Text style={[styles.paceDecimal, athlete.paceIsFaster ? styles.paceDiffFaster : styles.paceDiffSlower]}>{athlete.lastLapDiff.main}.</Text>
+            <Text style={[styles.paceDiffDecimal, athlete.paceIsFaster ? styles.paceDiffFaster : styles.paceDiffSlower]}>{athlete.lastLapDiff.decimal}</Text>
+          </View>
+        :
+          null
+    )
+  }
+
   renderAthleteButtons() {
     return _.map(this.state.athletesArray, athlete => {
       if (!athlete.workoutDone) {
@@ -333,19 +418,29 @@ export default class Timer extends Component {
               style={styles.athleteButton}
               onPress={() => this.recordLap(athlete.index)}
             >
-              <Text style={styles.athleteName}>{athlete.name}</Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 5}}>
+                <Text style={styles.athleteName}>{athlete.name}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end', paddingRight: 10}}>
                   <Text style={styles.lapLabel}>lap: </Text>
                   <Text style={styles.lapNum}>{athlete.currentLap + 1}</Text>
                 </View>
+              </View>
+
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 5}}>
+                  <Text style={[styles.paceMain, styles.lastLapPaceMain]}>{athlete.lastLapPace.main}.</Text>
+                  <Text style={[styles.paceDecimal, styles.lastLapPaceDecimal]}>{athlete.lastLapPace.decimal}</Text>
+                  <Text style={styles.lastLapPaceLabel}>{this.state.paceLabel}</Text>
+                  {this.renderPaceDiff(athlete)}
+                </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                   <Text style={styles.athleteReadoutMain}>{athlete.readout.main}.</Text>
-                  <View style={{width: 35, alignItems: 'flex-start'}}>
+                  <View style={{width: 30, alignItems: 'flex-start'}}>
                     <Text style={styles.athleteReadoutDecimal}>{athlete.readout.decimal}</Text>
                   </View>
                 </View>
               </View>
+
             </TouchableOpacity>
           </Animated.View>
         )
@@ -400,7 +495,13 @@ export default class Timer extends Component {
                 </View>
               </View>
               <View style={styles.readoutBlock}>
-                <Text style={styles.description}>{this.state.description}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <DisciplineIcon
+                    disc={this.state.workoutData.discipline}
+                    iconStyle={{width: 20, tintColor: sharedStyles.COLOR_GREEN, marginRight: 5}}
+                  />
+                  <Text style={styles.description}>{this.state.description}</Text>
+                </View>
                 <Text style={styles.mainReadoutMain}>{this.state.mainReadout.main}</Text>
               </View>
               <TouchableOpacity
@@ -426,7 +527,7 @@ export default class Timer extends Component {
   }
 }
 
-const SIDE_PADDING = 20;
+const SIDE_PADDING = 15;
 
 const styles = StyleSheet.create({
 	container: {
@@ -515,7 +616,7 @@ const styles = StyleSheet.create({
   description: {
 	  fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
 	  fontSize: 20,
-    color: sharedStyles.COLOR_GREEN
+    color: sharedStyles.COLOR_GREEN,
   },
   mainReadoutMain: {
 	  fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
@@ -537,7 +638,7 @@ const styles = StyleSheet.create({
     width: sharedStyles.DEVICE_WIDTH - (2 * SIDE_PADDING),
 	  borderRadius: 5,
     backgroundColor: sharedStyles.COLOR_WHITE,
-    paddingLeft: 15,
+    paddingLeft: 10,
   },
   athleteName: {
 	  fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
@@ -557,12 +658,60 @@ const styles = StyleSheet.create({
   },
   lapLabel: {
 	  fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
-	  fontSize: 30,
-    color: sharedStyles.COLOR_DARK_BLUE
+	  fontSize: 25,
+    color: sharedStyles.COLOR_DARK_BLUE,
+    paddingBottom: 4
   },
   lapNum: {
     fontFamily: sharedStyles.FONT_PRIMARY_MEDIUM,
 	  fontSize: 30,
-    color: sharedStyles.COLOR_PURPLE
+    color: sharedStyles.COLOR_PURPLE,
+    paddingBottom: 2
+  },
+  paceMain: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 25,
+  },
+  lastLapPaceMain: {
+    color: sharedStyles.COLOR_DARK_BLUE
+  },
+  paceDecimal: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 20,
+    paddingBottom: 1
+  },
+  lastLapPaceDecimal: {
+    color: sharedStyles.COLOR_DARK_BLUE,
+  },
+  lastLapPaceLabel: {
+    fontFamily: sharedStyles.FONT_PRIMARY_LIGHT,
+    fontSize: 17,
+    color: sharedStyles.COLOR_LIGHT_BLUE,
+    paddingBottom: 2,
+  },
+  paceDiffDecimal: {
+    fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
+    fontSize: 16,
+    paddingBottom: 2
+  },
+  paceDiffArrow: {
+	  width: 12,
+    height: 12 / IMAGES.UP_ARROW_ASPECT,
+    marginLeft: 5,
+    marginRight: 2,
+    marginBottom: 10
+  },
+  paceDiffArrowSlower: {
+    tintColor: sharedStyles.COLOR_RED,
+    transform: [{rotate: '180deg'}],
+  },
+  paceDiffArrowFaster: {
+    tintColor: sharedStyles.COLOR_DARK_GREEN,
+  },
+  paceDiffSlower: {
+    color: sharedStyles.COLOR_RED,
+  },
+  paceDiffFaster: {
+	  color: sharedStyles.COLOR_DARK_GREEN
   }
 });

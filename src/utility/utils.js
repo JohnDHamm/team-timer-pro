@@ -40,6 +40,18 @@ const Utils = {
       default:
         return 0;
     }
+  },
+  getPaceLabel: (disc, paceUnits) => {
+    switch (disc) {
+      case 'swim':
+        return `/100${paceUnits.swim}`;
+      case 'bike':
+        return paceUnits.bike === 'mi' ? 'mph' : 'km/h';
+      case 'run':
+        return `/${paceUnits.run}`;
+      default:
+        return ''
+    }
   }
 };
 

@@ -64,16 +64,7 @@ export default class WorkoutDetail extends Component {
   }
 
   renderPaceLabel() {
-    switch (this.state.selectedWorkout.discipline) {
-      case 'swim':
-        return `/100${this.state.paceSettings.swim}`;
-      case 'bike':
-        return this.state.paceSettings.bike === 'mi' ? 'mph' : 'km/h';
-      case 'run':
-        return `/${this.state.paceSettings.run}`;
-      default:
-        return ''
-    }
+    return Utils.getPaceLabel(this.state.selectedWorkout.discipline, this.state.paceSettings);
   }
 
   renderLaps(lapsArray) {
