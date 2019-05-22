@@ -47,6 +47,7 @@ export default sharedStyles = {
   COLOR_LIGHT_BLUE: "#6A7189",
   COLOR_LIGHT_GRAY: "#CCCCCC",
   COLOR_RED: "#A82F29",
+  COLOR_DARK_GREEN: "#1CA721",
   COLOR_WHITE: "#FFFFFF",
   COLOR_MODAL_BG: 'rgba(11, 22, 59, 0.75)',
 
