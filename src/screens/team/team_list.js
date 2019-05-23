@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {View, Text, StyleSheet, Button, ScrollView, TouchableOpacity} from 'react-native'
-import {NavigationActions, StackActions} from 'react-navigation'
 
 import _ from 'lodash';
 
@@ -15,7 +14,7 @@ export default class TeamList extends Component {
   static navigationOptions = {
     title: 'Team',
     headerBackTitle: 'Cancel',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -30,10 +29,11 @@ export default class TeamList extends Component {
     StoreUtils.getStore('TeamStore')
       .then(teamStore => {
         // console.log("teamStore", teamStore);
-        if (teamStore !== null) {
+        if (!_.isEmpty(teamStore)) {
           this.setState({teamStore}, () => {
             this.setState({teamList: Utils.createTeamList(teamStore), showEmptyMessage: false})
           });
+
         }
       });
   }
@@ -63,9 +63,7 @@ export default class TeamList extends Component {
     }
   }
 
-
   render(){
-
     return(
       <View style={sharedStyles.LAYOUT_MAIN_CENTER}>
         <View style={styles.listContainer}>

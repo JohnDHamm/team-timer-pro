@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     paddingTop: 5
   },
   errMsg: {
+	  textAlign: 'center',
 	  fontFamily: sharedStyles.FONT_PRIMARY_REGULAR,
 	  fontSize: 20,
 	  color: sharedStyles.COLOR_RED,
