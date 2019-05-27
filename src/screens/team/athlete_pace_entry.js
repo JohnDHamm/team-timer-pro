@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Modal
-} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 
 import StoreUtils from '../../utility/store_utils';
@@ -27,7 +20,6 @@ export default class AthletePaceEntry extends Component {
     super(props);
     this.state = {
       teamStore: {},
-      // showSaveBtn: false,
       showErrMsg: false,
       errMsg: "Please set the pace units for your team in settings!",
       swimPaceDisplay: "-:--",
@@ -44,8 +36,6 @@ export default class AthletePaceEntry extends Component {
 
   componentDidMount() {
     const { name, teamStore } = this.props.navigation.state.params;
-    // console.log("existing teamStore", teamStore);
-    // console.log("new athlete name", name);
     this.setState({name, teamStore});
     StoreUtils.getStore('UserSettingsStore')
       .then(res => {
@@ -61,11 +51,7 @@ export default class AthletePaceEntry extends Component {
     if (!this.state.paceStore) {
       return ""
     } else {
-      if (this.state.paceStore.bike === 'mi') {
-        return 'mph'
-      } else {
-        return 'km/h'
-      }
+      return (this.state.paceStore.bike === 'mi') ? 'mph' : 'km/h';
     }
   }
 
@@ -95,7 +81,6 @@ export default class AthletePaceEntry extends Component {
       run_pace: this.state.runPace
     };
     updatedTeam[this.state.name] = newAthlete;
-    // console.log("updatedTeam", updatedTeam);
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: 'TeamList'})]

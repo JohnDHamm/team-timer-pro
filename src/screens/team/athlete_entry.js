@@ -6,6 +6,7 @@ import StoreUtils from '../../utility/store_utils';
 import sharedStyles from '../../styles/shared_styles'
 import SecondaryButton from '../../components/secondary_button'
 import NextButton from "../../components/next_button";
+import {ERR_MSG} from '../../utility/constants';
 
 export default class AthleteEntry extends Component {
 
@@ -21,13 +22,12 @@ export default class AthleteEntry extends Component {
       newName: "",
       showSaveBtn: false,
       showErrMsg: false,
-      errMsg: "That name already exists!",
+      errMsg: ERR_MSG.DUPE_NAME,
     }
   };
 
   componentDidMount() {
     const { teamStore } = this.props.navigation.state.params;
-    // console.log("existing teamStore", teamStore);
     this.setState({teamStore});
   }
 
@@ -52,7 +52,6 @@ export default class AthleteEntry extends Component {
       run_pace: 0
     };
     updatedTeam[this.state.newName] = newAthlete;
-    // console.log("updatedTeam", updatedTeam);
 
     const resetAction = StackActions.reset({
       index: 0,
@@ -65,10 +64,7 @@ export default class AthleteEntry extends Component {
   checkDuplicateAthlete(newName) {
     const teamNames = Object.keys(this.state.teamStore);
     const match = teamNames.filter(name => name === newName);
-    if (match.length > 0) {
-      return true
-    };
-    return false;
+    return (match.length > 0)
   }
 
 
