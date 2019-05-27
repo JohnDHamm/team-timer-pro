@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {View, Text, Image, Picker, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image, Picker, StyleSheet, TouchableOpacity} from 'react-native';
 import sharedStyles from "../styles/shared_styles";
 import SecondaryButton from "./secondary_button";
 import IMAGES from "../../assets/images";
-import _ from 'lodash';
 
 export default class TimePaceModal extends Component {
 
@@ -16,6 +15,10 @@ export default class TimePaceModal extends Component {
   };
   
   componentDidMount() {
+    if (this.props.defaultTime) {
+      const {minutes, seconds} = this.props.defaultTime;
+      this.setState({minutes, seconds});
+    }
   }
 
   createMinutesArray() {

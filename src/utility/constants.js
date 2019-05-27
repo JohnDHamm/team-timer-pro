@@ -31,3 +31,8 @@ export const DISTANCE_CONVERSIONS = {
   'yd-km': 0.0009144,
   'mi-km': 1.609344
 };
+
+export const ERR_MSG = {
+  DUPE_NAME: 'That name already exists!',
+  EMPTY_NAME: 'Name cannot be empty!'
+};
