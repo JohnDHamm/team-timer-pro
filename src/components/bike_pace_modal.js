@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, Image, Picker, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import sharedStyles from "../styles/shared_styles";
 import SecondaryButton from "./secondary_button";
 import IMAGES from "../../assets/images";

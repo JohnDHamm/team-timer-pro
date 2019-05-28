@@ -52,6 +52,15 @@ const Utils = {
       default:
         return ''
     }
+  },
+  convertTimeForExport: (ms) => {
+    const hours = Math.floor( ms / 1000 / 60 / 60 );
+    const minutes = Math.floor(ms / 1000 / 60) - ( hours * 60 );
+    const seconds = (( ms / 1000) - (hours * 60 * 60) - (minutes * 60)).toFixed(1);
+    let HH = (hours < 10) ? `0${hours}` : hours.toString();
+    let MM = (minutes < 10) ? `0${minutes}` : minutes.toString();
+    let SS = (seconds < 10) ? `0${seconds}` : seconds.toString();
+    return `${HH}:${MM}:${SS}`
   }
 };
 

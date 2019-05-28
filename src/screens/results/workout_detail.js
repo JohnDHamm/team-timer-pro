@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Share } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
+import { FileSystem } from 'expo';
 
 import _ from 'lodash';
 import Utils from '../../utility/utils'
@@ -33,7 +34,7 @@ export default class WorkoutDetail extends Component {
 
   componentDidMount() {
     const { selectedWorkout, workoutStore } = this.props.navigation.state.params;
-    // console.log("selected workout: ", selectedWorkout);
+    console.log("selected workout: ", selectedWorkout);
     this.setState({ selectedWorkout, workoutStore });
   }
 
@@ -60,6 +61,44 @@ export default class WorkoutDetail extends Component {
     StoreUtils.setStore('WorkoutStore', updatedWorkoutStore)
       .then(() => {
         this.props.navigation.navigate('ResultsList');
+      })
+  }
+
+  createDataRows() {
+    let data = '\n';
+    this.state.selectedWorkout.workout.forEach(workout => {
+      console.log("workout.athlete:", workout.athlete);
+      data += workout.athlete;
+      workout.laps.forEach((lapTime, index) => {
+        data += '\n';
+        const time = Utils.convertTimeForExport(lapTime);
+        data += `lap ${index +1}:,${time}`
+      });
+      data += '\n\n';
+    });
+    return data
+  }
+
+  exportCSV(){
+    StoreUtils.getStore('UserSettingsStore')
+      .then( res => {
+        const firstLine = `Coach ${res.user_name}\n`;
+        const secondLine = `${this.state.selectedWorkout.description}\n`;
+        const thirdLine = `${this.state.selectedWorkout.discipline}\n`;
+        const athleteData = this.createDataRows();
+        let finalFile = firstLine + secondLine + thirdLine + athleteData;
+        console.log("finalFile:", finalFile);
+        const revisedDescription = this.state.selectedWorkout.description.split(' ').join('');
+        const fileName = `${revisedDescription}-${this.state.selectedWorkout.discipline}.csv`;
+        const filePath = FileSystem.cacheDirectory;
+
+        FileSystem.writeAsStringAsync(filePath + `${fileName}`, finalFile)
+          .then(() => {
+            Share.share({
+              message: `Sharing workout ${this.state.selectedWorkout.description}`,
+              url: filePath + `${fileName}`
+            })
+          })
       })
   }
 
@@ -165,7 +204,6 @@ export default class WorkoutDetail extends Component {
     if (!this.state.selectedWorkout.workout) return;
 
     return _.map(this.state.selectedWorkout.workout, athlete => {
-      // console.log("athlete", athlete.athlete)
       return (
         <View key={athlete.athlete}>
           <View style={styles.nameBlock}>
@@ -195,6 +233,14 @@ export default class WorkoutDetail extends Component {
         />
         <ScrollView>
           { this.renderAthletes() }
+          <TouchableOpacity
+            style={styles.deleteBtn}
+            onPress={() => this.exportCSV()}>
+            <SecondaryButton
+              label={'share result as .csv'}
+              color={sharedStyles.COLOR_PURPLE}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.deleteBtn}
             onPress={() => this.deleteConfirm()}>
