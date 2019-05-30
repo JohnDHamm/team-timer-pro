@@ -36,7 +36,7 @@ export default class SelectAthletes extends Component {
     StoreUtils.getStore('TeamStore')
       .then(teamStore => {
         // console.log("teamStore:", teamStore);
-        if (teamStore !== null) {
+        if (!_.isEmpty(teamStore)) {
           this.setState({teamList: Utils.createTeamList(teamStore), showEmptyMessage: false})
         }
       });
