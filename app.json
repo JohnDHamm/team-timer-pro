@@ -4,11 +4,11 @@
     "description": "A multi-athlete lap timer.",
     "slug": "team-timer-pro",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios"
     ],
-    "version": "0.0.4",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
