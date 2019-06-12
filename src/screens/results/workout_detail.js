@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Share } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import { FileSystem } from 'expo';
+import * as FileSystem from 'expo-file-system';
 
 import _ from 'lodash';
 import Utils from '../../utility/utils'
@@ -34,7 +34,7 @@ export default class WorkoutDetail extends Component {
 
   componentDidMount() {
     const { selectedWorkout, workoutStore } = this.props.navigation.state.params;
-    console.log("selected workout: ", selectedWorkout);
+    // console.log("selected workout: ", selectedWorkout);
     this.setState({ selectedWorkout, workoutStore });
   }
 
@@ -67,7 +67,7 @@ export default class WorkoutDetail extends Component {
   createDataRows() {
     let data = '\n';
     this.state.selectedWorkout.workout.forEach(workout => {
-      console.log("workout.athlete:", workout.athlete);
+      // console.log("workout.athlete:", workout.athlete);
       data += workout.athlete;
       workout.laps.forEach((lapTime, index) => {
         data += '\n';
@@ -87,7 +87,7 @@ export default class WorkoutDetail extends Component {
         const thirdLine = `${this.state.selectedWorkout.discipline}\n`;
         const athleteData = this.createDataRows();
         let finalFile = firstLine + secondLine + thirdLine + athleteData;
-        console.log("finalFile:", finalFile);
+        // console.log("finalFile:", finalFile);
         const revisedDescription = this.state.selectedWorkout.description.split(' ').join('');
         const fileName = `${revisedDescription}-${this.state.selectedWorkout.discipline}.csv`;
         const filePath = FileSystem.cacheDirectory;

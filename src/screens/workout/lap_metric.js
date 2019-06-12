@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import sharedStyles from '../../styles/shared_styles';
 import NextButton from '../../components/next_button';
 import { MEASUREMENTS } from "../../utility/constants";
-import {Haptic} from 'expo';
+import * as Haptics from 'expo-haptics';
 
 export default class LapMetric extends Component {
 
@@ -22,7 +22,7 @@ export default class LapMetric extends Component {
   };
 
   onSelection(metric) {
-    metric !== this.state.lapMetric ? Haptic.impact(Haptic.ImpactFeedbackStyle.Medium) : null;
+    metric !== this.state.lapMetric ? Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) : null;
     this.setState({lapMetric: metric, disableNextButton: false})
   }
 

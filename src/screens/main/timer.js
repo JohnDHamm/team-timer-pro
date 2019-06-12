@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Image, ActionSheetIOS, Animated} from 'react-native';
-import { Haptic } from 'expo';
+import * as Haptics from 'expo-haptics';
 import PieChart from 'react-native-pie-chart';
 
 import StoreUtils from '../../utility/store_utils';
@@ -180,7 +180,7 @@ export default class Timer extends Component {
   }
 
   startTimer() {
-    Haptic.impact(Haptic.ImpactFeedbackStyle.Heavy);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     const startTime = Date.now();
     this.setState({timerOn: true});
     this.setState({startTime}, () => {
@@ -210,7 +210,7 @@ export default class Timer extends Component {
   recordLap(athleteIndex) {
     if (this.state.timerOn) {
       if (!this.state.athletesArray[athleteIndex].workoutDone) {
-        Haptic.impact(Haptic.ImpactFeedbackStyle.Heavy);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
         const thisLap = Date.now() - this.state.startTime;
         let newLapArray = this.state.athletesArray[athleteIndex].lapTimesArray;
         newLapArray.push(thisLap);

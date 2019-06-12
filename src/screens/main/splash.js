@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { Font } from 'expo';
+import * as Font from 'expo-font';
 
 import sharedStyles from '../../styles/shared_styles';
 import IMAGES from '@assets/images'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Haptic } from 'expo';
+import * as Haptics from 'expo-haptics';
 
 import sharedStyles from '../styles/shared_styles';
 
@@ -20,7 +20,7 @@ export default class Toggle extends Component {
   }
 
   onPress(value) {
-    Haptic.impact(Haptic.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     this.setState({selected: value});
     this.props.onToggle(value);
   }
