@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Haptic } from 'expo';
+import * as Haptics from 'expo-haptics';
 
 import IMAGES from '@assets/images'
 import sharedStyles from '../styles/shared_styles';
@@ -8,7 +8,7 @@ import sharedStyles from '../styles/shared_styles';
 export default class NextButton extends Component {
 
   onPress() {
-    Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     this.props.onPress();
   }
 

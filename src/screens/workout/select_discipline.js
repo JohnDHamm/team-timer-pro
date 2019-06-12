@@ -5,7 +5,7 @@ import sharedStyles from '../../styles/shared_styles';
 import IMAGES from '@assets/images'
 
 import NextButton from '../../components/next_button';
-import {Haptic} from 'expo';
+import * as Haptics from 'expo-haptics';
 
 export default class SelectDiscipline extends Component {
 
@@ -23,7 +23,7 @@ export default class SelectDiscipline extends Component {
   };
 
   selectDiscipline(discipline) {
-    discipline !== this.state.discipline ? Haptic.impact(Haptic.ImpactFeedbackStyle.Medium) : null;
+    discipline !== this.state.discipline ? Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) : null;
     this.setState({discipline, disableNextButton: false});
   }
 
