@@ -27,7 +27,7 @@ const DisciplineIcon = ({ disc, iconStyle }) => {
         />
       );
     default:
-      console.log("missing discipline!!!!");
+      return null
   }
 };
 

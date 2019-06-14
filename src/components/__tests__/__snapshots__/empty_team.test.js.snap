@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EmptyTeam /> it renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Image
+    source={1}
+    style={
+      Object {
+        "height": 85,
+        "marginBottom": 10,
+        "width": 85,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "color": "#A82F29",
+        "fontFamily": "dosis-light",
+        "fontSize": 25,
+      }
+    }
+  >
+    Your team is empty!
+  </Text>
+</View>
+`;
