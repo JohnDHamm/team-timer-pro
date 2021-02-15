@@ -1,4 +1,4 @@
-import TimeConversion from './time_conversion'
+import TimeConversion from '../time_conversion'
 
 describe('converting time in ms to a readout of H:MM:SS.s', () => {
   test('given no hours or minutes and double-digit seconds returns M:SS.s', () => {

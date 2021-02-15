@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SetupHome /> it renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#0B163B",
+      "flex": 1,
+      "justifyContent": "space-around",
+      "padding": 20,
+    }
+  }
+>
+  <Image
+    source={1}
+    style={
+      Object {
+        "height": 280.93076049943244,
+        "width": 247.5,
+      }
+    }
+  />
+  <View>
+    <Text
+      style={
+        Object {
+          "color": "#BADA55",
+          "fontFamily": "dosis-light",
+          "fontSize": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      Welcome!
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#BADA55",
+          "fontFamily": "dosis-light",
+          "fontSize": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+       
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#BADA55",
+          "fontFamily": "dosis-light",
+          "fontSize": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      Let’s get started by setting up some items needed to make the most of Team Timer Pro…
+    </Text>
+  </View>
+  <View>
+    <View
+      accessible={true}
+      isTVSelectable={true}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "borderColor": "#BADA55",
+            "borderRadius": 3,
+            "borderWidth": 1,
+            "paddingHorizontal": 15,
+            "paddingVertical": 5,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#BADA55",
+              "fontFamily": "dosis-regular",
+              "fontSize": 20,
+            }
+          }
+        >
+          start setup
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

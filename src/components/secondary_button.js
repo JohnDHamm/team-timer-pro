@@ -19,6 +19,6 @@ const SecondaryButton = ({ label, color }) => {
       }}>{label}</Text>
     </View>
   )
-}
+};
 
 export default SecondaryButton;

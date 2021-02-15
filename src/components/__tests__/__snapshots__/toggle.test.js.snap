@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toggle /> it renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#BADA55",
+        "borderBottomLeftRadius": 3,
+        "borderColor": "#BADA55",
+        "borderTopLeftRadius": 3,
+        "borderWidth": 1,
+        "opacity": 1,
+        "paddingBottom": 7,
+        "paddingHorizontal": 13,
+        "paddingTop": 3,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "dosis-regular",
+            "fontSize": 25,
+          },
+          Object {
+            "color": "#6E5EAB",
+          },
+        ]
+      }
+    >
+      left
+    </Text>
+  </View>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "borderBottomRightRadius": 3,
+        "borderColor": "#BADA55",
+        "borderTopRightRadius": 3,
+        "borderWidth": 1,
+        "opacity": 1,
+        "paddingBottom": 7,
+        "paddingHorizontal": 13,
+        "paddingTop": 3,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "dosis-regular",
+            "fontSize": 25,
+          },
+          Object {
+            "color": "#CCCCCC",
+          },
+        ]
+      }
+    >
+      right
+    </Text>
+  </View>
+</View>
+`;

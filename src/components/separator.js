@@ -12,6 +12,6 @@ const Separator = ({ width, color }) => {
       marginBottom: 10,
     }}/>
   )
-}
+};
 
 export default Separator;

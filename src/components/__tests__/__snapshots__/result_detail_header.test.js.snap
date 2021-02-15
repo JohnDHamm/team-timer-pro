@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ResultDetailHeader /> it renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+    }
+  }
+>
+  <Image
+    source={1}
+    style={
+      Object {
+        "height": 13.468013468013467,
+        "tintColor": "#BADA55",
+        "width": 20,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "color": "#BADA55",
+        "fontFamily": "dosis-medium",
+        "fontSize": 20,
+        "paddingLeft": 5,
+      }
+    }
+  >
+    Jun 13 - 4 x 100yd
+  </Text>
+</View>
+`;

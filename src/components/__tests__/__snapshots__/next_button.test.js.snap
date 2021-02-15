@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NextButton /> it renders correctly as disabled 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#6E5EAB",
+            "fontFamily": "dosis-medium",
+            "fontSize": 20,
+            "paddingBottom": 5,
+          },
+          Object {
+            "color": "#CCCCCC",
+          },
+        ]
+      }
+    >
+      button label
+    </Text>
+    <Image
+      source={1}
+      style={
+        Array [
+          Object {
+            "height": 25.3324889170361,
+            "width": 40,
+          },
+          Object {
+            "tintColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`<NextButton /> it renders correctly as enabled 1`] = `
+<View>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "opacity": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#6E5EAB",
+          "fontFamily": "dosis-medium",
+          "fontSize": 20,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      button label
+    </Text>
+    <Image
+      source={1}
+      style={
+        Object {
+          "height": 25.3324889170361,
+          "width": 40,
+        }
+      }
+    />
+  </View>
+</View>
+`;

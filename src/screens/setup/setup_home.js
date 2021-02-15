@@ -7,9 +7,6 @@ import IMAGES from '@assets/images'
 
 export default class SetupHome extends Component {
 
-  componentDidMount() {
-  }
-
   render(){
     return(
       <View style={styles.container}>

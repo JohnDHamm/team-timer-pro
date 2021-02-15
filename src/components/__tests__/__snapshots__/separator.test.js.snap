@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Separator /> it renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "borderBottomColor": "green",
+      "borderColor": "transparent",
+      "borderWidth": 1,
+      "height": 1,
+      "marginBottom": 10,
+      "width": 150,
+    }
+  }
+/>
+`;

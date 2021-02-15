@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SecondaryButton /> it renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "borderColor": "green",
+      "borderRadius": 3,
+      "borderWidth": 1,
+      "paddingHorizontal": 15,
+      "paddingVertical": 5,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "green",
+        "fontFamily": "dosis-regular",
+        "fontSize": 20,
+      }
+    }
+  >
+    save
+  </Text>
+</View>
+`;

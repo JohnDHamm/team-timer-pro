@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DisciplineIcon /> it does not render anything for invalid discipline 1`] = `null`;
+
+exports[`<DisciplineIcon /> it renders correctly for bike 1`] = `
+<Image
+  source={1}
+  style={
+    Object {
+      "height": 15.267175572519083,
+      "tintColor": "green",
+      "width": 20,
+    }
+  }
+/>
+`;
+
+exports[`<DisciplineIcon /> it renders correctly for run 1`] = `
+<Image
+  source={1}
+  style={
+    Object {
+      "height": 16.129032258064516,
+      "tintColor": "green",
+      "width": 20,
+    }
+  }
+/>
+`;
+
+exports[`<DisciplineIcon /> it renders correctly for swim 1`] = `
+<Image
+  source={1}
+  style={
+    Object {
+      "height": 13.468013468013467,
+      "tintColor": "green",
+      "width": 20,
+    }
+  }
+/>
+`;
